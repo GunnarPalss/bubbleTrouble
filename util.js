@@ -79,8 +79,22 @@ wrappedDistSq: function(x1, y1, x2, y2, xWrap, yWrap) {
 
 clearCanvas: function (ctx) {
     var prevfillStyle = ctx.fillStyle;
-    ctx.fillStyle = "black";
+    /*
+    ctx.fillStyle = "trans";
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    */
+    // Create gradient
+
+    var grd = ctx.createLinearGradient(0, 0, 600, 600);
+
+    // Add colors
+    grd.addColorStop(0.000, 'rgba(0, 127, 255, 1.000)');
+    grd.addColorStop(1.000, 'rgba(255, 124, 0, 1.000)');
+
+    // Fill with gradient
+    ctx.fillStyle = grd;
+    ctx.fillRect(0, 0, 600.000, 600.000);
+
     ctx.fillStyle = prevfillStyle;
 },
 
