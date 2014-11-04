@@ -19,13 +19,14 @@ function Ship(descr) {
 	this.setup(descr);
 
 	this.rememberResets();
-	
+
 	// Default sprite, if not otherwise specified
 	this.sprite = this.sprite || g_sprites.ship;
-	
+
 	// Set normal drawing scale, and warp state off
 	this._scale = 1;
 	this._isWarping = false;
+	this.cy = g_canvas.height - g_sprites.ship.height / 2;
 };
 
 Ship.prototype = new Entity();
@@ -47,7 +48,7 @@ Ship.prototype.KEY_FIRE   = ' '.charCodeAt(0);
 // Initial, inheritable, default values
 Ship.prototype.rotation = 0;
 Ship.prototype.cx = 200;
-Ship.prototype.cy = 200;
+Ship.prototype.cy = g_canvas.height;
 Ship.prototype.velX = 0;
 Ship.prototype.velY = 0;
 Ship.prototype.launchVel = 2;
@@ -62,7 +63,7 @@ Ship.prototype.warp = function () {
 	this._isWarping = true;
 	this._scaleDirn = -1;
 	this.warpSound.play();
-	
+
 	// Unregister me from my old posistion
 	// ...so that I can't be collided with while warping
 	spatialManager.unregister(this);
@@ -72,22 +73,22 @@ Ship.prototype._updateWarp = function (du) {
 
 	var SHRINK_RATE = 3 / SECS_TO_NOMINALS;
 	this._scale += this._scaleDirn * SHRINK_RATE * du;
-	
+
 	if (this._scale < 0.2) {
-	
+
 		this._moveToASafePlace();
 		this.halt();
 		this._scaleDirn = 1;
-		
+
 	} else if (this._scale > 1) {
-	
+
 		this._scale = 1;
 		this._isWarping = false;
-		
+
 		// Reregister me from my old posistion
 		// ...so that I can be collided with again
 		spatialManager.register(this);
-		
+
 	}
 };
 
@@ -100,15 +101,15 @@ Ship.prototype._moveToASafePlace = function () {
 		isSafePlace = false;
 
 	for (var attempts = 0; attempts < 100; ++attempts) {
-	
+
 		var warpDistance = 100 + Math.random() * g_canvas.width /2;
 		var warpDirn = Math.random() * consts.FULL_CIRCLE;
-		
+
 		this.cx = origX + warpDistance * Math.sin(warpDirn);
 		this.cy = origY - warpDistance * Math.cos(warpDirn);
-		
+
 		this.wrapPosition();
-		
+
 		// Don't go too near the edges, and don't move into a collision!
 		if (!util.isBetween(this.cx, MARGIN, g_canvas.width - MARGIN)) {
 			isSafePlace = false;
@@ -120,10 +121,10 @@ Ship.prototype._moveToASafePlace = function () {
 
 		// Get out as soon as we find a safe place
 		if (isSafePlace) break;
-		
+
 	}
 };
-	
+
 Ship.prototype.update = function (du) {
 
 	// Handle warping
@@ -131,7 +132,7 @@ Ship.prototype.update = function (du) {
 		this._updateWarp(du);
 		return;
 	}
-	
+
 	// TODO: YOUR STUFF HERE! --- Unregister and check for death
 
 	// Perform movement substeps
@@ -149,19 +150,19 @@ Ship.prototype.update = function (du) {
 };
 
 Ship.prototype.computeSubStep = function (du) {
-	
+
 	var thrust = this.computeThrustMag();
 
 	// Apply thrust directionally, based on our rotation
 	var accelX = +Math.sin(this.rotation) * thrust;
-	var accelY = -Math.cos(this.rotation) * thrust;
-	
-	accelY += this.computeGravity();
+	//var accelY = -Math.cos(this.rotation) * thrust;
 
-	this.applyAccel(accelX, accelY, du);
-	
+	//accelY += this.computeGravity();
+
+	this.applyAccel(accelX, 0, du);
+
 	this.wrapPosition();
-	
+
 	if (thrust === 0 || g_allowMixedActions) {
 		this.updateRotation(du);
 	}
@@ -177,41 +178,41 @@ var NOMINAL_THRUST = +0.2;
 var NOMINAL_RETRO  = -0.1;
 
 Ship.prototype.computeThrustMag = function () {
-	
+
 	var thrust = 0;
-	
+
 	if (keys[this.KEY_THRUST]) {
 		thrust += NOMINAL_THRUST;
 	}
 	if (keys[this.KEY_RETRO]) {
 		thrust += NOMINAL_RETRO;
 	}
-	
+
 	return thrust;
 };
 
 Ship.prototype.applyAccel = function (accelX, accelY, du) {
-	
+
 	// u = original velocity
 	var oldVelX = this.velX;
 	var oldVelY = this.velY;
-	
+
 	// v = u + at
 	this.velX += accelX * du;
-	this.velY += accelY * du; 
+	this.velY += accelY * du;
 
 	// v_ave = (u + v) / 2
 	var aveVelX = (oldVelX + this.velX) / 2;
 	var aveVelY = (oldVelY + this.velY) / 2;
-	
+
 	// Decide whether to use the average or not (average is best!)
 	var intervalVelX = g_useAveVel ? aveVelX : this.velX;
 	var intervalVelY = g_useAveVel ? aveVelY : this.velY;
-	
+
 	// s = s + v_ave * t
 	var nextX = this.cx + intervalVelX * du;
 	var nextY = this.cy + intervalVelY * du;
-	
+
 	// bounce
 	if (g_useGravity) {
 
@@ -227,7 +228,7 @@ Ship.prototype.applyAccel = function (accelX, accelY, du) {
 			intervalVelY = this.velY;
 		}
 	}
-	
+
 	// s = s + v_ave * t
 	this.cx += du * intervalVelX;
 	this.cy += du * intervalVelY;
@@ -236,11 +237,11 @@ Ship.prototype.applyAccel = function (accelX, accelY, du) {
 Ship.prototype.maybeFireBullet = function () {
 
 	if (keys[this.KEY_FIRE]) {
-	
+
 		var dX = +Math.sin(this.rotation);
 		var dY = -Math.cos(this.rotation);
 		var launchDist = this.getRadius() * 1.2;
-		
+
 		var relVel = this.launchVel;
 		var relVelX = dX * relVel;
 		var relVelY = dY * relVel;
@@ -249,9 +250,9 @@ Ship.prototype.maybeFireBullet = function () {
 		   this.cx + dX * launchDist, this.cy + dY * launchDist,
 		   this.velX + relVelX, this.velY + relVelY,
 		   this.rotation);
-		   
+
 	}
-	
+
 };
 
 Ship.prototype.getRadius = function () {
@@ -265,7 +266,7 @@ Ship.prototype.takeBulletHit = function () {
 Ship.prototype.reset = function () {
 	this.setPos(this.reset_cx, this.reset_cy);
 	this.rotation = this.reset_rotation;
-	
+
 	this.halt();
 };
 
@@ -275,13 +276,14 @@ Ship.prototype.halt = function () {
 };
 
 var NOMINAL_ROTATE_RATE = 0.1;
+var nominal_move_rate = 5;
 
 Ship.prototype.updateRotation = function (du) {
 	if (keys[this.KEY_LEFT]) {
-		this.rotation -= NOMINAL_ROTATE_RATE * du;
+		this.cx -= nominal_move_rate * du;
 	}
 	if (keys[this.KEY_RIGHT]) {
-		this.rotation += NOMINAL_ROTATE_RATE * du;
+		this.cx += nominal_move_rate * du;
 	}
 };
 

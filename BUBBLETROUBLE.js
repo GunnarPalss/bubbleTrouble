@@ -48,7 +48,7 @@ function createInitialShips() {
         cx : 200,
         cy : 200
     });
-    
+
 }
 
 // =============
@@ -76,9 +76,9 @@ function gatherInputs() {
 // GAME-SPECIFIC UPDATE LOGIC
 
 function updateSimulation(du) {
-    
+
     processDiagnostics();
-    
+
     entityManager.update(du);
 
     // Prevent perpetual firing!
@@ -127,13 +127,13 @@ function processDiagnostics() {
     if (eatKey(KEY_1)) entityManager.generateShip({
         cx : g_mouseX,
         cy : g_mouseY,
-        
+
         sprite : g_sprites.ship});
 
     if (eatKey(KEY_2)) entityManager.generateShip({
         cx : g_mouseX,
         cy : g_mouseY,
-        
+
         sprite : g_sprites.ship2
         });
 
@@ -173,7 +173,7 @@ var g_images = {};
 function requestPreloads() {
 
     var requiredImages = {
-        ship   : "https://notendur.hi.is/~pk/308G/images/ship.png",
+        ship   : "1.bmp",
         ship2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
         rock   : "https://notendur.hi.is/~pk/308G/images/rock.png"
     };

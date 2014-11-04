@@ -17,7 +17,7 @@ with suitable 'data' and 'methods'.
 
 
 // Tell jslint not to complain about my use of underscore prefixes (nomen),
-// my flattening of some indentation (white), or my use of incr/decr ops 
+// my flattening of some indentation (white), or my use of incr/decr ops
 // (plusplus).
 //
 /*jslint nomen: true, white: true, plusplus: true*/
@@ -54,7 +54,7 @@ _findNearestShip : function(posX, posY) {
         var thisShip = this._ships[i];
         var shipPos = thisShip.getPos();
         var distSq = util.wrappedDistSq(
-            shipPos.posX, shipPos.posY, 
+            shipPos.posX, shipPos.posY,
             posX, posY,
             g_canvas.width, g_canvas.height);
 
@@ -91,7 +91,7 @@ deferredSetup : function () {
 },
 
 init: function() {
-    this._generateRocks();
+    //this._generateRocks();
     //this._generateShip();
 },
 
@@ -107,7 +107,7 @@ fireBullet: function(cx, cy, velX, velY, rotation) {
 },
 
 generateRock : function(descr) {
-    this._rocks.push(new Rock(descr));
+   /* this._rocks.push(new Rock(descr));*/
 },
 
 generateShip : function(descr) {
@@ -134,7 +134,7 @@ resetShips: function() {
 
 haltShips: function() {
     this._forEachOf(this._ships, Ship.prototype.halt);
-},	
+},
 
 toggleRocks: function() {
     this._bShowRocks = !this._bShowRocks;
@@ -161,7 +161,7 @@ update: function(du) {
             }
         }
     }
-    
+
     if (this._rocks.length === 0) this._generateRocks();
 
 },
@@ -174,7 +174,7 @@ render: function(ctx) {
 
         var aCategory = this._categories[c];
 
-        if (!this._bShowRocks && 
+        if (!this._bShowRocks &&
             aCategory == this._rocks)
             continue;
 
