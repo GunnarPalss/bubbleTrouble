@@ -173,7 +173,7 @@ var g_images = {};
 function requestPreloads() {
 
     var requiredImages = {
-        ship   : "1.bmp",
+        ship   : "1.png",
         ship2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
         rock   : "https://notendur.hi.is/~pk/308G/images/rock.png",
         bg     : "bg.png"
