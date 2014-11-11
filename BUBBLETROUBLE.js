@@ -121,6 +121,8 @@ function processDiagnostics() {
 }
 
 
+
+
 // =================
 // RENDER SIMULATION
 // =================
@@ -152,7 +154,7 @@ var g_images = {};
 function requestPreloads() {
 
     var requiredImages = {
-        player   : "1.png",
+        player   : "img/player@2x.png",
         rock   : "https://notendur.hi.is/~pk/308G/images/rock.png",
         bg     : "bg.png",
         wire   : "img/wire.png"
@@ -163,14 +165,18 @@ function requestPreloads() {
 
 var g_sprites = {};
 
+
 function preloadDone() {
 
     g_sprites.player  = new Sprite(g_images.player);
+    g_sprites.player.count = 5;
+
     g_sprites.rock  = new Sprite(g_images.rock);
 
     g_sprites.bg = new Sprite(g_images.bg);
 
-    g_sprites.Wire = new Sprite(g_images.wire); 
+    g_sprites.Wire = new Sprite(g_images.wire);
+
 
 
     entityManager.init();
