@@ -74,29 +74,21 @@ unregister: function(entity) {
 
 },
 
-findEntityInRange: function(rect, radius) {
+findEntityInRange: function(rect) {
 
 
 	for(var i=0; i<this._entities.length; i++)
     {
     	var entity = this._entities[i].entity;
 
-    	//entity is rectangle AKA the player
-    	if(entity.getBoundingBox)
-    	{
-    		return
-    	}
 
     	//entity is a circle
-    	else
-    	{
-    		var entityRad = entity.getRadius();
-    		var entityPos = entity.getPos();
-    		if (rect.collidesWithCircle(entityPos.posY, entityPos.posX, entityRad))
-    			return entity
+    	var entityRad = entity.getRadius();
+    	var entityPos = entity.getPos();
+    	if (rect.collidesWithCircle(entityPos.posY, entityPos.posX, entityRad))
+    		return entity
 
 
-    	}
 
     }
 
@@ -112,17 +104,10 @@ render: function(ctx) {
         var e = this._entities[i].entity;
         var pos = e.getPos();
 
-        //entity is rectangle
-        if(e.getBoundingBox)
-        {	var rect = e.getBoundingBox();
-       		util.strokeRect(ctx, rect.x, rect.y, rect.width, rect.height);
-        }
 
-        //entity is circle
-        else {
-        	var radius = e.getRadius();
-        	util.strokeCircle(ctx, pos.posX, pos.posY, radius);
-        }
+        var radius = e.getRadius();
+        util.strokeCircle(ctx, pos.posX, pos.posY, radius);
+
 
     }
     ctx.strokeStyle = oldStyle;
