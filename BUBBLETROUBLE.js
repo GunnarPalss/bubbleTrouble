@@ -16,11 +16,11 @@ But also, to a lesser extent, in:
 
 Rock.js
 Wire.js
-Ship.js
+player.js
 
 
 ...Basically, you need to implement the core of the spatialManager,
-and modify the Rock/Wire/Ship to register (and unregister)
+and modify the Rock/Wire/player to register (and unregister)
 with it correctly, so that they can participate in collisions.
 
 */
@@ -39,12 +39,12 @@ var g_ctx = g_canvas.getContext("2d");
 
 
 // ====================
-// CREATE INITIAL SHIPS
+// CREATE INITIAL playerS
 // ====================
 
-function createInitialShips() {
+function createInitialplayers() {
 
-    entityManager.generateShip({
+    entityManager.generateplayer({
         cx : 200,
         cy : 200
     });
@@ -82,7 +82,7 @@ function updateSimulation(du) {
     entityManager.update(du);
 
     // Prevent perpetual firing!
-    eatKey(Ship.prototype.KEY_FIRE);
+    eatKey(player.prototype.KEY_FIRE);
 }
 
 // GAME-SPECIFIC DIAGNOSTICS
@@ -113,9 +113,9 @@ function processDiagnostics() {
 
     if (eatKey(KEY_SPATIAL)) g_renderSpatialDebug = !g_renderSpatialDebug;
 
-    if (eatKey(KEY_HALT)) entityManager.haltShips();
+    if (eatKey(KEY_HALT)) entityManager.haltplayers();
 
-    if (eatKey(KEY_RESET)) entityManager.resetShips();
+    if (eatKey(KEY_RESET)) entityManager.resetplayers();
 
 
 }
@@ -152,8 +152,7 @@ var g_images = {};
 function requestPreloads() {
 
     var requiredImages = {
-        ship   : "1.png",
-        ship2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
+        player   : "1.png",
         rock   : "https://notendur.hi.is/~pk/308G/images/rock.png",
         bg     : "bg.png",
         wire   : "img/wire.png"
@@ -166,8 +165,7 @@ var g_sprites = {};
 
 function preloadDone() {
 
-    g_sprites.ship  = new Sprite(g_images.ship);
-    g_sprites.ship2 = new Sprite(g_images.ship2);
+    g_sprites.player  = new Sprite(g_images.player);
     g_sprites.rock  = new Sprite(g_images.rock);
 
     g_sprites.bg = new Sprite(g_images.bg);
@@ -176,7 +174,7 @@ function preloadDone() {
 
 
     entityManager.init();
-    createInitialShips();
+    createInitialplayers();
 
     main.init();
 }

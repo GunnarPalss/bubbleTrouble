@@ -29,7 +29,7 @@ var entityManager = {
 
 _rocks   : [],
 _Wires : [],
-_ships   : [],
+_players   : [],
 
 _bShowRocks : true,
 
@@ -44,28 +44,28 @@ _generateRocks : function() {
     }
 },
 
-_findNearestShip : function(posX, posY) {
-    var closestShip = null,
+_findNearestplayer : function(posX, posY) {
+    var closestplayer = null,
         closestIndex = -1,
         closestSq = 1000 * 1000;
 
-    for (var i = 0; i < this._ships.length; ++i) {
+    for (var i = 0; i < this._players.length; ++i) {
 
-        var thisShip = this._ships[i];
-        var shipPos = thisShip.getPos();
+        var thisplayer = this._players[i];
+        var playerPos = thisplayer.getPos();
         var distSq = util.wrappedDistSq(
-            shipPos.posX, shipPos.posY,
+            playerPos.posX, playerPos.posY,
             posX, posY,
             g_canvas.width, g_canvas.height);
 
         if (distSq < closestSq) {
-            closestShip = thisShip;
+            closestplayer = thisplayer;
             closestIndex = i;
             closestSq = distSq;
         }
     }
     return {
-        theShip : closestShip,
+        theplayer : closestplayer,
         theIndex: closestIndex
     };
 },
@@ -87,12 +87,12 @@ KILL_ME_NOW : -1,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._rocks, this._Wires, this._ships];
+    this._categories = [this._rocks, this._Wires, this._players];
 },
 
 init: function() {
     //this._generateRocks();
-    //this._generateShip();
+    //this._generateplayer();
 },
 
 fireWire: function(cx, cy, velX, velY, rotation) {
@@ -105,30 +105,30 @@ generateRock : function(descr) {
    /* this._rocks.push(new Rock(descr));*/
 },
 
-generateShip : function(descr) {
-    this._ships.push(new Ship(descr));
+generateplayer : function(descr) {
+    this._players.push(new player(descr));
 },
 
-killNearestShip : function(xPos, yPos) {
-    var theShip = this._findNearestShip(xPos, yPos).theShip;
-    if (theShip) {
-        theShip.kill();
+killNearestplayer : function(xPos, yPos) {
+    var theplayer = this._findNearestplayer(xPos, yPos).theplayer;
+    if (theplayer) {
+        theplayer.kill();
     }
 },
 
-yoinkNearestShip : function(xPos, yPos) {
-    var theShip = this._findNearestShip(xPos, yPos).theShip;
-    if (theShip) {
-        theShip.setPos(xPos, yPos);
+yoinkNearestplayer : function(xPos, yPos) {
+    var theplayer = this._findNearestplayer(xPos, yPos).theplayer;
+    if (theplayer) {
+        theplayer.setPos(xPos, yPos);
     }
 },
 
-resetShips: function() {
-    this._forEachOf(this._ships, Ship.prototype.reset);
+resetplayers: function() {
+    this._forEachOf(this._players, player.prototype.reset);
 },
 
-haltShips: function() {
-    this._forEachOf(this._ships, Ship.prototype.halt);
+haltplayers: function() {
+    this._forEachOf(this._players, player.prototype.halt);
 },
 
 toggleRocks: function() {
