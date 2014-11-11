@@ -96,9 +96,13 @@ init: function() {
 },
 
 fireWire: function(cx, cy, velX, velY, rotation) {
-    this._Wires.push(new Wire({
-        cx   : cx
-    }));
+
+	if(this._Wires.length === 0)
+	{
+	    this._Wires.push(new Wire({
+	        cx   : cx
+	    }));
+	}
 },
 
 generateRock : function(descr) {
