@@ -40,7 +40,7 @@ Wire.prototype = new Entity();
 
 // HACKED-IN AUDIO (no preloading)
 Wire.prototype.fireSound = new Audio(
-	"sounds/bulletFire.ogg");
+	"sounds/Grapple.wav");
 Wire.prototype.zappedSound = new Audio(
 	"sounds/bulletZapped.ogg");
 

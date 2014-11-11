@@ -85,7 +85,7 @@ clearCanvas: function (ctx) {
     */
     // Create gradient
 
-    var grd = ctx.createLinearGradient(0, 0, 600, 600);
+    var grd = ctx.createLinearGradient(0, 0, g_canvas.width, g_canvas.height);
 
     // Add colors
     grd.addColorStop(0.000, 'rgba(0, 127, 255, 1.000)');
@@ -93,7 +93,7 @@ clearCanvas: function (ctx) {
 
     // Fill with gradient
     ctx.fillStyle = grd;
-    ctx.fillRect(0, 0, 600.000, 600.000);
+    ctx.fillRect(0, 0, g_canvas.width, g_canvas.height);
 
     ctx.fillStyle = prevfillStyle;
 },
