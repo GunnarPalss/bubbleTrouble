@@ -20,7 +20,7 @@ function Bullet(descr) {
 
 	// Make a noise when I am created (i.e. fired)
 	this.fireSound.play();
-	
+
 /*
 	// Diagnostics to check inheritance stuff
 	this._bulletProperty = true;
@@ -36,45 +36,31 @@ Bullet.prototype.fireSound = new Audio(
 	"sounds/bulletFire.ogg");
 Bullet.prototype.zappedSound = new Audio(
 	"sounds/bulletZapped.ogg");
-	
+
 // Initial, inheritable, default values
-Bullet.prototype.rotation = 0;
 Bullet.prototype.cx = 200;
 Bullet.prototype.cy = 200;
 Bullet.prototype.velX = 1;
 Bullet.prototype.velY = 1;
 
-// Convert times from milliseconds to "nominal" time units.
-Bullet.prototype.lifeSpan = 3000 / NOMINAL_UPDATE_INTERVAL;
+
 
 Bullet.prototype.update = function (du) {
 
 	// TODO: YOUR STUFF HERE! --- Unregister and check for death
 
-	this.lifeSpan -= du;
-	if (this.lifeSpan < 0) return entityManager.KILL_ME_NOW;
-
 	this.cx += this.velX * du;
 	this.cy += this.velY * du;
 
-	this.rotation += 1 * du;
-	this.rotation = util.wrapRange(this.rotation,
-								   0, consts.FULL_CIRCLE);
 
-	this.wrapPosition();
-	
-	// TODO? NO, ACTUALLY, I JUST DID THIS BIT FOR YOU! :-)
-	//
-	// Handle collisions
-	//
-	var hitEntity = this.findHitEntity();
-	if (hitEntity) {
-		var canTakeHit = hitEntity.takeBulletHit;
-		if (canTakeHit) canTakeHit.call(hitEntity); 
-		return entityManager.KILL_ME_NOW;
-	}
-	
-	// TODO: YOUR STUFF HERE! --- (Re-)Register
+	if(this.collidesWithWall())
+		return entityManager.KILL_ME_NOW
+
+
+
+	if(this.collidesWithBall())
+		return entityManager.KILL_ME_NOW
+
 
 };
 
@@ -82,24 +68,25 @@ Bullet.prototype.getRadius = function () {
 	return 4;
 };
 
-Bullet.prototype.takeBulletHit = function () {
-	this.kill();
-	
-	// Make a noise when I am zapped by another bullet
-	this.zappedSound.play();
+
+Bullet.prototype.collidesWithWall = function () {
+
+	//Hit the wall
+	if((this.cy - g_sprites.bullet.height/2) < 0)
+		return true
+	else
+		return false
 };
+
+Bullet.prototype.collidesWithBall = function () {
+	return false
+};
+
 
 Bullet.prototype.render = function (ctx) {
 
-	var fadeThresh = Bullet.prototype.lifeSpan / 3;
-
-	if (this.lifeSpan < fadeThresh) {
-		ctx.globalAlpha = this.lifeSpan / fadeThresh;
-	}
-
 	g_sprites.bullet.drawWrappedCentredAt(
-		ctx, this.cx, this.cy, this.rotation
+		ctx, this.cx, this.cy, 0
 	);
 
-	ctx.globalAlpha = 1;
 };
