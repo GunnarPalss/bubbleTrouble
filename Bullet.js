@@ -39,7 +39,7 @@ Bullet.prototype.zappedSound = new Audio(
 
 // Initial, inheritable, default values
 Bullet.prototype.cx = 200;
-Bullet.prototype.cy = 200;
+Bullet.prototype.cy = -300;
 Bullet.prototype.velX = 1;
 Bullet.prototype.velY = 1;
 
@@ -51,6 +51,7 @@ Bullet.prototype.update = function (du) {
 
 	this.cx += this.velX * du;
 	this.cy += this.velY * du;
+
 
 
 	if(this.collidesWithWall())
