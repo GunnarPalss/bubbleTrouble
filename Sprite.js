@@ -20,6 +20,8 @@ function Sprite(image) {
     this.width = image.width;
     this.height = image.height;
     this.scale = 1;
+
+    this.count = 1;
 }
 
 Sprite.prototype.drawAt = function (ctx, x, y) {
@@ -46,6 +48,7 @@ Sprite.prototype.drawCentredAt = function (ctx, cx, cy, rotation) {
     ctx.restore();
 };  
 
+
 Sprite.prototype.drawWrappedCentredAt = function (ctx, cx, cy, rotation) {
     
     // Get "screen width"
@@ -70,4 +73,10 @@ Sprite.prototype.drawWrappedVerticalCentredAt = function (ctx, cx, cy, rotation)
     // Top and Bottom wraps
     this.drawCentredAt(ctx, cx, cy - sh, rotation);
     this.drawCentredAt(ctx, cx, cy + sh, rotation);
+};
+
+Sprite.prototype.drawSpriteIndex = function(ctx, index, cx, cy){
+    ctx.save();
+    ctx.drawImage(this.image, index*this.width/this.count, 0, this.width/this.count, this.height, cx-this.width/this.count/2, cy-this.height/2, this.width/this.count, this.height);
+    ctx.restore();
 };

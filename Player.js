@@ -24,9 +24,14 @@ function player(descr) {
 	this.sprite = this.sprite || g_sprites.player;
 
 	// Set normal drawing scale, and warp state off
-	this._scale = 1;
+	this._scale = 2;
 	this.cy = g_canvas.height - g_sprites.player.height / 2;
 
+	this.frameIndex = 2;
+
+	this.stepLength = 10;
+	this.leftStepCount = this.stepLength;
+	this.rightStepCount = this.stepLength;
 };
 
 player.prototype = new Entity();
@@ -52,11 +57,55 @@ player.prototype.warpSound = new Audio(
 
 player.prototype.update = function (du) {
 
+
 	//Unregister the player so he can't collide with himself
 	spatialManager.unregister(this);
 
-	if(keys[this.KEY_LEFT] && this.cx > g_sprites.player.width/2) this.cx -= 2;
-	if(keys[this.KEY_RIGHT] && this.cx < g_canvas.width-g_sprites.player.width/2) this.cx += 2;
+
+
+	if(keys[this.KEY_FIRE]){
+		this.frameIndex = 2;
+		this.leftStepCount = 0;
+		this.rightStepCount = 0;
+	}
+	else if(keys[this.KEY_LEFT] && this.cx > g_sprites.player.width/g_sprites.player.count/2){
+		this.cx -= 2;
+
+		this.rightStepCount = this.stepLength;
+
+		if(this.leftStepCount == this.stepLength){
+			if(this.frameIndex != 0){
+				this.frameIndex = 0;
+			}
+			else if(this.frameIndex == 0){
+				this.frameIndex = 1;
+			}
+			this.leftStepCount = 0;
+		}
+		else this.leftStepCount++;
+	}
+	else if(keys[this.KEY_RIGHT] && this.cx < g_canvas.width-g_sprites.player.width/g_sprites.player.count/2){
+		this.cx += 2;
+
+		this.leftStepCount = this.stepLength;
+
+		if(this.rightStepCount == this.stepLength){
+			if(this.frameIndex != 4){
+				this.frameIndex = 4;
+			}
+			else if(this.frameIndex == 4){
+				this.frameIndex = 3;
+			}
+			this.rightStepCount = 0;
+		}
+		else this.rightStepCount++;
+
+	}
+	else{
+		this.frameIndex = 2;
+	}
+
+
 	// Handle firing
 	this.maybeFireWire();
 
@@ -66,21 +115,19 @@ player.prototype.update = function (du) {
 
 player.prototype.maybeFireWire = function () {
 	if (keys[this.KEY_FIRE]) {
-		entityManager.fireWire(
-		   this.cx);
+		entityManager.fireWire(this.cx);
 	}
 };
 
 player.prototype.getBoundingBox = function() {
-	return new Rectangle(this.cx-g_sprites.player.width/2, this.cy-g_sprites.player.height/2, g_sprites.player.width , g_sprites.player.height);
+	return new Rectangle(this.cx-g_sprites.player.width/g_sprites.player.count/2, this.cy-g_sprites.player.height/2, g_sprites.player.width/g_sprites.player.count , g_sprites.player.height);
 }
 
 player.prototype.render = function (ctx) {
 	var origScale = this.sprite.scale;
 
 	this.sprite.scale = this._scale;
-	this.sprite.drawCentredAt(
-	ctx, this.cx, this.cy, 0
-	);
+	this.sprite.drawSpriteIndex(ctx, this.frameIndex, this.cx, this.cy);
+
 	this.sprite.scale = origScale;
 };
