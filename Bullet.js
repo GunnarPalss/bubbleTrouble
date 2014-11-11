@@ -38,9 +38,8 @@ Bullet.prototype.zappedSound = new Audio(
 	"sounds/bulletZapped.ogg");
 	
 // Initial, inheritable, default values
-Bullet.prototype.rotation = 0;
 Bullet.prototype.cx = 200;
-Bullet.prototype.cy = 200;
+Bullet.prototype.cy = -300;
 Bullet.prototype.velX = 1;
 Bullet.prototype.velY = 1;
 
@@ -56,10 +55,6 @@ Bullet.prototype.update = function (du) {
 
 	this.cx += this.velX * du;
 	this.cy += this.velY * du;
-
-	this.rotation += 1 * du;
-	this.rotation = util.wrapRange(this.rotation,
-								   0, consts.FULL_CIRCLE);
 
 	this.wrapPosition();
 	
@@ -98,7 +93,7 @@ Bullet.prototype.render = function (ctx) {
 	}
 
 	g_sprites.bullet.drawWrappedCentredAt(
-		ctx, this.cx, this.cy, this.rotation
+		ctx, this.cx, this.cy, 0
 	);
 
 	ctx.globalAlpha = 1;
