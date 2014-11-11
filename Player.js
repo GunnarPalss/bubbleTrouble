@@ -52,10 +52,16 @@ player.prototype.warpSound = new Audio(
 
 player.prototype.update = function (du) {
 
+	//Unregister the player so he can't collide with himself
+	spatialManager.unregister(this);
+
 	if(keys[this.KEY_LEFT] && this.cx > g_sprites.player.width/2) this.cx -= 2;
 	if(keys[this.KEY_RIGHT] && this.cx < g_canvas.width-g_sprites.player.width/2) this.cx += 2;
 	// Handle firing
 	this.maybeFireWire();
+
+	//register the player so he can collide again!
+	spatialManager.register(this);
 };
 
 player.prototype.maybeFireWire = function () {
@@ -64,6 +70,10 @@ player.prototype.maybeFireWire = function () {
 		   this.cx);
 	}
 };
+
+player.prototype.getBoundingBox = function() {
+	return new Rectangle(this.cx-g_sprites.player.width/2, this.cy-g_sprites.player.height/2, g_sprites.player.width , g_sprites.player.height);
+}
 
 player.prototype.render = function (ctx) {
 	var origScale = this.sprite.scale;

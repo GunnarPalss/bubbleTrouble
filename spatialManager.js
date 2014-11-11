@@ -25,48 +25,107 @@ _nextSpatialID : 1, // make all valid IDs non-falsey (i.e. don't start at 0)
 _entities : [],
 
 // "PRIVATE" METHODS
-//
-// <none yet>
+
+//Insert a value into the _entities array, keeps the array sorted, O(N)
+_insert: function(id, entity) {
+
+	this._entities.push({spatialID: id, entity: entity});
+
+
+},
+
+//O(N) because of array splice
+_delete: function(id) {
+
+	for(var i=0; i<this._entities.length; i++)
+	{
+		if(this._entities[i].spatialID === id)
+		{
+			this._entities.splice(i, 1);
+			break;
+		}
+
+	}
+
+},
+
 
 
 // PUBLIC METHODS
 
 getNewSpatialID : function() {
 
-	// TODO: YOUR STUFF HERE!
+	return this._nextSpatialID++;
 
 },
 
 register: function(entity) {
 	var pos = entity.getPos();
-	var spatialID = entity.getSpatialID();
-	
-	// TODO: YOUR STUFF HERE!
+    var spatialID = entity.getSpatialID();
+
+    this._insert(spatialID, entity);
 
 },
 
 unregister: function(entity) {
 	var spatialID = entity.getSpatialID();
 
-	// TODO: YOUR STUFF HERE!
+	this._delete(spatialID)
 
 },
 
-findEntityInRange: function(posX, posY, radius) {
+findEntityInRange: function(rect, radius) {
 
-	// TODO: YOUR STUFF HERE!
+
+	for(var i=0; i<this._entities.length; i++)
+    {
+    	var entity = this._entities[i].entity;
+
+    	//entity is rectangle AKA the player
+    	if(entity.getBoundingBox)
+    	{
+    		return
+    	}
+
+    	//entity is a circle
+    	else
+    	{
+    		var entityRad = entity.getRadius();
+    		var entityPos = entity.getPos();
+    		if (rect.collidesWithCircle(entityPos.posY, entityPos.posX, entityRad))
+    			return entity
+
+
+    	}
+
+    }
+
 
 },
 
 render: function(ctx) {
 	var oldStyle = ctx.strokeStyle;
-	ctx.strokeStyle = "red";
-	
-	for (var ID in this._entities) {
-		var e = this._entities[ID];
-		util.strokeCircle(ctx, e.posX, e.posY, e.radius);
-	}
-	ctx.strokeStyle = oldStyle;
+    ctx.strokeStyle = "red";
+
+    for (var i=0; i<this._entities.length; i++) {
+
+        var e = this._entities[i].entity;
+        var pos = e.getPos();
+
+        //entity is rectangle
+        if(e.getBoundingBox)
+        {	var rect = e.getBoundingBox();
+       		util.strokeRect(ctx, rect.x, rect.y, rect.width, rect.height);
+        }
+
+        //entity is circle
+        else {
+        	var radius = e.getRadius();
+        	util.strokeCircle(ctx, pos.posX, pos.posY, radius);
+        }
+
+    }
+    ctx.strokeStyle = oldStyle;
 }
 
 }
