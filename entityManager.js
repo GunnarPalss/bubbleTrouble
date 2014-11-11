@@ -28,7 +28,7 @@ var entityManager = {
 // "PRIVATE" DATA
 
 _rocks   : [],
-_bullets : [],
+_Wires : [],
 _ships   : [],
 
 _bShowRocks : true,
@@ -87,7 +87,7 @@ KILL_ME_NOW : -1,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._rocks, this._bullets, this._ships];
+    this._categories = [this._rocks, this._Wires, this._ships];
 },
 
 init: function() {
@@ -95,14 +95,9 @@ init: function() {
     //this._generateShip();
 },
 
-fireBullet: function(cx, cy, velX, velY, rotation) {
-    this._bullets.push(new Bullet({
-        cx   : cx,
-        cy   : cy,
-        velX : velX,
-        velY : velY,
-
-        rotation : rotation
+fireWire: function(cx, cy, velX, velY, rotation) {
+    this._Wires.push(new Wire({
+        cx   : cx
     }));
 },
 

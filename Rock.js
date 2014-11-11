@@ -86,7 +86,7 @@ Rock.prototype.splitSound = new Audio(
 Rock.prototype.evaporateSound = new Audio(
   "sounds/rockEvaporate.ogg");
 
-Rock.prototype.takeBulletHit = function () {
+Rock.prototype.takeWireHit = function () {
 	this.kill();
 	
 	if (this.scale > 0.25) {

@@ -15,12 +15,12 @@ spatialManager.js
 But also, to a lesser extent, in:
 
 Rock.js
-Bullet.js
+Wire.js
 Ship.js
 
 
 ...Basically, you need to implement the core of the spatialManager,
-and modify the Rock/Bullet/Ship to register (and unregister)
+and modify the Rock/Wire/Ship to register (and unregister)
 with it correctly, so that they can participate in collisions.
 
 */
@@ -191,11 +191,9 @@ function preloadDone() {
     g_sprites.ship2 = new Sprite(g_images.ship2);
     g_sprites.rock  = new Sprite(g_images.rock);
 
-    g_sprites.wire  = new Sprite(g_images.wire);
-
     g_sprites.bg = new Sprite(g_images.bg);
 
-    g_sprites.bullet = new Sprite(g_images.wire); 
+    g_sprites.Wire = new Sprite(g_images.wire); 
 
 
     entityManager.init();

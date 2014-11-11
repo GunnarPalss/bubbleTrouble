@@ -27,6 +27,9 @@ function Ship(descr) {
 	this._scale = 1;
 	this._isWarping = false;
 	this.cy = g_canvas.height - g_sprites.ship.height / 2;
+
+	this.wireStart = 900;
+	this.wireSpeed = 100;
 };
 
 Ship.prototype = new Entity();
@@ -143,7 +146,7 @@ Ship.prototype.update = function (du) {
 	}
 
 	// Handle firing
-	this.maybeFireBullet();
+	this.maybeFireWire();
 
 	// TODO: YOUR STUFF HERE! --- Warp if isColliding, otherwise Register
 
@@ -234,7 +237,7 @@ Ship.prototype.applyAccel = function (accelX, accelY, du) {
 	this.cy += du * intervalVelY;
 };
 
-Ship.prototype.maybeFireBullet = function () {
+Ship.prototype.maybeFireWire = function () {
 
 	if (keys[this.KEY_FIRE]) {
 
@@ -246,11 +249,8 @@ Ship.prototype.maybeFireBullet = function () {
 		var relVelX = dX * relVel;
 		var relVelY = dY * relVel;
 
-		entityManager.fireBullet(
-		   this.cx + dX * launchDist, this.cy + dY * launchDist,
-		   this.velX + relVelX, this.velY + relVelY,
-		   this.rotation);
-
+		entityManager.fireWire(
+		   this.cx + dX * launchDist);
 	}
 
 };
@@ -259,7 +259,7 @@ Ship.prototype.getRadius = function () {
 	return (this.sprite.width / 2) * 0.9;
 };
 
-Ship.prototype.takeBulletHit = function () {
+Ship.prototype.takeWireHit = function () {
 	this.warp();
 };
 
