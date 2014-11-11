@@ -105,6 +105,17 @@ fireWire: function(cx, cy, velX, velY, rotation) {
 	}
 },
 
+fireBullet: function(cx, cy, velX, velY, rotation) {
+    this._bullets.push(new Bullet({
+        cx   : cx,
+        cy   : cy,
+        velX : velX,
+        velY : velY,
+
+        rotation : rotation
+    }));
+},
+
 generateRock : function(descr) {
    /* this._rocks.push(new Rock(descr));*/
 },
