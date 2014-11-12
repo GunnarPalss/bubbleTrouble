@@ -85,8 +85,11 @@ findEntityInRange: function(rect) {
         //entity is a circle
         var entityRad = entity.getRadius();
         var entityPos = entity.getPos();
-        if (rect.collidesWithCircle(entityPos.posY, entityPos.posX, entityRad))
+        if (rect.collidesWithCircle(entityPos.posX, entityPos.posY, entityRad))
+        {
+        	console.log("player hit")
             return entity
+        }
 
 
 

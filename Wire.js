@@ -91,11 +91,11 @@ Wire.prototype.collidesWithWall = function () {
 };
 
 Wire.prototype.collidesWithBall = function () {
-	var entity = spatialManager.findEntityInRange(new Rectangle(this.cx-g_sprites.Wire.width/2), this.cy-g_sprites.Wire.height/2, g_sprites.width, g_sprites.height);
+	var entity = spatialManager.findEntityInRange(new Rectangle(this.cx-g_sprites.Wire.width/2, this.cy-g_sprites.Wire.height/2, g_sprites.Wire.width, g_sprites.Wire.height));
 	if(entity)
 	{
-		entity.kill();
-		this.kill();
+		entity.takeWireHit();
+		spatialManager.unregister(entity);
 		return true
 	}
 	else

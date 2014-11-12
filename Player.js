@@ -108,6 +108,10 @@ player.prototype.update = function (du) {
 	// Handle firing
 	this.maybeFireWire();
 
+
+	if(this.collidesWithBall())
+		this.kill();
+
 };
 
 player.prototype.maybeFireWire = function () {
@@ -122,10 +126,10 @@ player.prototype.getBoundingBox = function() {
 }
 
 player.prototype.collidesWithBall = function () {
-	var entity = spatialManager.findEntityInRange(new Rectangle(this.cx-g_sprites.player.width/g_sprites.player.count/2, this.cy-g_sprites.player.height/2, g_sprites.player.width/g_sprites.player.count , g_sprites.player.height));
+	var entity = spatialManager.findEntityInRange(this.getBoundingBox());
+
 	if(entity)
 	{
-		this.kill();
 		return true
 	}
 	else

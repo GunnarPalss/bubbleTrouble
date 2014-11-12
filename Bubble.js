@@ -18,9 +18,21 @@ function Bubble(descr) {
     // Common inherited setup logic from Entity
     this.setup(descr);
 
-    this.randomisePosition();
-    this.randomiseVelocity();
-      
+    if(!this.cx && !this.cy)
+    {
+    	this.randomisePosition();
+
+    }
+
+     if(!this.velX && !this.velY)
+    {
+    	this.randomiseVelocity();
+
+
+    }
+
+
+
     // Default sprite and scale, if not otherwise specified
     this.sprite = this.sprite || g_sprites.bubble;
     this.scale  = this.scale  || 1;
@@ -93,7 +105,7 @@ Bubble.prototype.update = function (du) {
     //                             0, consts.FULL_CIRCLE);
 
     this.wrapPosition();
-    
+
     spatialManager.register(this);
 
 };
@@ -110,11 +122,11 @@ Bubble.prototype.evaporateSound = new Audio(
 
 Bubble.prototype.takeWireHit = function () {
     this.kill();
-    
+
     if (this.scale > 0.25) {
-        this._spawnFragment();
-        this._spawnFragment();
-        
+        this._spawnFragment(this.velX, this.velY);
+        this._spawnFragment(-this.velX, this.velY);
+
         this.splitSound.play();
         this.splitSound.currentTime = 0;
 
@@ -124,10 +136,12 @@ Bubble.prototype.takeWireHit = function () {
     }
 };
 
-Bubble.prototype._spawnFragment = function () {
+Bubble.prototype._spawnFragment = function (velX, velY) {
     entityManager.generateBubble({
         cx : this.cx,
         cy : this.cy,
+        velX: velX,
+        velY: velY,
         scale : this.scale /2
     });
 };
