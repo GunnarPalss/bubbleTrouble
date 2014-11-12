@@ -38,7 +38,7 @@ _bShowBubbles : true,
 
 _generateBubbles : function() {
     var i,
-        NUM_BUBBLES = 5;
+        NUM_BUBBLES = 1;
 
     for (i = 0; i < NUM_BUBBLES; ++i) {
         this.generateBubble();

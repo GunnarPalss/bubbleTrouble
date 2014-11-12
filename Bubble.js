@@ -50,7 +50,7 @@ Bubble.prototype = new Entity();
 Bubble.prototype.randomisePosition = function () {
     // Bubble randomisation defaults (if nothing otherwise specified)
     this.cx = this.cx || Math.random() * g_canvas.width;
-    this.cy = this.cy || Math.random() * g_canvas.height;
+    this.cy = this.cy || Math.random() * g_canvas.height * 0.7;
     //this.rotation = this.rotation || 0;
 };
 
@@ -63,7 +63,7 @@ Bubble.prototype.computeGravity = function () {
 
 Bubble.prototype.randomiseVelocity = function () {
     var MIN_SPEED = 20,
-        MAX_SPEED = 70;
+        MAX_SPEED = 50;
 
     var speed = util.randRange(MIN_SPEED, MAX_SPEED) / SECS_TO_NOMINALS;
     var dirn = Math.random() * consts.FULL_CIRCLE;
@@ -94,11 +94,14 @@ Bubble.prototype.update = function (du) {
 
     //Make sure the balls don't go out of bounds:
 
-    if (R + nextX >= g_canvas.width ||nextX - R <= 0)  this.velX *=-1;
-    if (R + nextY >= g_canvas.height ||nextY - R <= 0) this.velY *=-1;
+    if (R + nextX >= g_canvas.width || nextX - R <= 0)  this.velX *=-1;
+    if (R + nextY >= g_canvas.height || nextY - R <= 0) this.velY *=-1;
 
+    var NOMINAL_GRAVITY = 0.12;
+    this.velY += NOMINAL_GRAVITY;
     this.cx += this.velX * du;
     this.cy += this.velY * du;
+
 
     //this.rotation += 1 * this.velRot;
     //this.rotation = util.wrapRange(this.rotation,
@@ -124,8 +127,8 @@ Bubble.prototype.takeWireHit = function () {
     this.kill();
 
     if (this.scale > 0.25) {
-        this._spawnFragment(this.velX, this.velY);
-        this._spawnFragment(-this.velX, this.velY);
+        this._spawnFragment(this.velX, -Math.abs(2));
+        this._spawnFragment(-this.velX, -Math.abs(2));
 
         this.splitSound.play();
         this.splitSound.currentTime = 0;
