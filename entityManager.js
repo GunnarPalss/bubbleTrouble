@@ -27,20 +27,21 @@ var entityManager = {
 
 // "PRIVATE" DATA
 
-_rocks   : [],
+_bubbles   : [],
 _Wires : [],
 _players   : [],
 
-_bShowRocks : true,
+_bShowBubbles : true,
 
 // "PRIVATE" METHODS
 
-_generateRocks : function() {
-    var i,
-        NUM_ROCKS = 4;
 
-    for (i = 0; i < NUM_ROCKS; ++i) {
-        this.generateRock();
+_generateBubbles : function() {
+    var i,
+        NUM_BUBBLES = 5;
+
+    for (i = 0; i < NUM_BUBBLES; ++i) {
+        this.generateBubble();
     }
 },
 
@@ -87,11 +88,11 @@ KILL_ME_NOW : -1,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._rocks, this._Wires, this._players];
+    this._categories = [this._bubbles, this._Wires, this._players];
 },
 
 init: function() {
-    //this._generateRocks();
+    this._generateBubbles();
     //this._generateplayer();
 },
 
@@ -105,24 +106,15 @@ fireWire: function(cx, cy, velX, velY, rotation) {
 	}
 },
 
-fireBullet: function(cx, cy, velX, velY, rotation) {
-    this._bullets.push(new Bullet({
-        cx   : cx,
-        cy   : cy,
-        velX : velX,
-        velY : velY,
 
-        rotation : rotation
-    }));
-},
-
-generateRock : function(descr) {
-   /* this._rocks.push(new Rock(descr));*/
+generateBubble : function(descr) {
+   this._bubbles.push(new Bubble(descr));
 },
 
 generateplayer : function(descr) {
     this._players.push(new player(descr));
 },
+
 
 killNearestplayer : function(xPos, yPos) {
     var theplayer = this._findNearestplayer(xPos, yPos).theplayer;
@@ -146,8 +138,8 @@ haltplayers: function() {
     this._forEachOf(this._players, player.prototype.halt);
 },
 
-toggleRocks: function() {
-    this._bShowRocks = !this._bShowRocks;
+toggleBubbles: function() {
+    this._bShowBubbles = !this._bShowBubbles;
 },
 
 update: function(du) {
@@ -172,7 +164,7 @@ update: function(du) {
         }
     }
 
-    if (this._rocks.length === 0) this._generateRocks();
+    if (this._bubbles.length === 0) this._generateBubbles();
 
 },
 
@@ -184,8 +176,8 @@ render: function(ctx) {
 
         var aCategory = this._categories[c];
 
-        if (!this._bShowRocks &&
-            aCategory == this._rocks)
+        if (!this._bShowBubbles &&
+            aCategory == this._bubbles)
             continue;
 
         for (var i = 0; i < aCategory.length; ++i) {
@@ -199,6 +191,8 @@ render: function(ctx) {
 }
 
 }
+
+
 
 // Some deferred setup which needs the object to have been created first
 entityManager.deferredSetup();

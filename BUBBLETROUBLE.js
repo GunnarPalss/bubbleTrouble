@@ -51,6 +51,16 @@ function createInitialplayers() {
 
 }
 
+
+function createInitialships() {
+	entityManager.generateShip({
+		cx : 400,
+        cy : 200
+	});
+}
+
+
+
 // =============
 // GATHER INPUTS
 // =============
@@ -155,7 +165,7 @@ function requestPreloads() {
 
     var requiredImages = {
         player   : "img/player@2x.png",
-        rock   : "https://notendur.hi.is/~pk/308G/images/rock.png",
+        bubble   : "666.png",
         bg     : "bg.png",
         wire   : "img/wire.png"
     };
@@ -171,7 +181,7 @@ function preloadDone() {
     g_sprites.player  = new Sprite(g_images.player);
     g_sprites.player.count = 5;
 
-    g_sprites.rock  = new Sprite(g_images.rock);
+    g_sprites.bubble  = new Sprite(g_images.bubble);
 
     g_sprites.bg = new Sprite(g_images.bg);
 
@@ -181,6 +191,7 @@ function preloadDone() {
 
     entityManager.init();
     createInitialplayers();
+    //createInitialships();
 
     main.init();
 }

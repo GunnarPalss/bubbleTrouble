@@ -56,6 +56,10 @@ Wire.prototype.update = function (du) {
 
 	// TODO: YOUR STUFF HERE! --- Unregister and check for death
 
+	//Should kill wire if it has hit a bubble
+	if(this._isDeadNow)
+		return entityManager.KILL_ME_NOW
+
 	this.cx += this.velX * du;
 	this.cy += this.velY * du;
 
@@ -87,7 +91,16 @@ Wire.prototype.collidesWithWall = function () {
 };
 
 Wire.prototype.collidesWithBall = function () {
-	return false
+	var entity = spatialManager.findEntityInRange(new Rectangle(this.cx-g_sprites.Wire.width/2), this.cy-g_sprites.Wire.height/2, g_sprites.width, g_sprites.height);
+	if(entity)
+	{
+		entity.kill();
+		this.kill();
+		return true
+	}
+	else
+		return false
+
 };
 
 

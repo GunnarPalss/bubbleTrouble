@@ -29,7 +29,7 @@ _entities : [],
 //Insert a value into the _entities array, keeps the array sorted, O(N)
 _insert: function(id, entity) {
 
-	this._entities.push({spatialID: id, entity: entity});
+    this._entities.push({spatialID: id, entity: entity});
 
 
 },
@@ -37,15 +37,15 @@ _insert: function(id, entity) {
 //O(N) because of array splice
 _delete: function(id) {
 
-	for(var i=0; i<this._entities.length; i++)
-	{
-		if(this._entities[i].spatialID === id)
-		{
-			this._entities.splice(i, 1);
-			break;
-		}
+    for(var i=0; i<this._entities.length; i++)
+    {
+        if(this._entities[i].spatialID === id)
+        {
+            this._entities.splice(i, 1);
+            break;
+        }
 
-	}
+    }
 
 },
 
@@ -55,12 +55,12 @@ _delete: function(id) {
 
 getNewSpatialID : function() {
 
-	return this._nextSpatialID++;
+    return this._nextSpatialID++;
 
 },
 
 register: function(entity) {
-	var pos = entity.getPos();
+    var pos = entity.getPos();
     var spatialID = entity.getSpatialID();
 
     this._insert(spatialID, entity);
@@ -68,35 +68,27 @@ register: function(entity) {
 },
 
 unregister: function(entity) {
-	var spatialID = entity.getSpatialID();
+    var spatialID = entity.getSpatialID();
 
-	this._delete(spatialID)
+    this._delete(spatialID)
 
 },
 
-findEntityInRange: function(rect, radius) {
+findEntityInRange: function(rect) {
 
 
-	for(var i=0; i<this._entities.length; i++)
+    for(var i=0; i<this._entities.length; i++)
     {
-    	var entity = this._entities[i].entity;
-
-    	//entity is rectangle AKA the player
-    	if(entity.getBoundingBox)
-    	{
-    		return
-    	}
-
-    	//entity is a circle
-    	else
-    	{
-    		var entityRad = entity.getRadius();
-    		var entityPos = entity.getPos();
-    		if (rect.collidesWithCircle(entityPos.posY, entityPos.posX, entityRad))
-    			return entity
+        var entity = this._entities[i].entity;
 
 
-    	}
+        //entity is a circle
+        var entityRad = entity.getRadius();
+        var entityPos = entity.getPos();
+        if (rect.collidesWithCircle(entityPos.posY, entityPos.posX, entityRad))
+            return entity
+
+
 
     }
 
@@ -104,7 +96,7 @@ findEntityInRange: function(rect, radius) {
 },
 
 render: function(ctx) {
-	var oldStyle = ctx.strokeStyle;
+    var oldStyle = ctx.strokeStyle;
     ctx.strokeStyle = "red";
 
     for (var i=0; i<this._entities.length; i++) {
@@ -112,17 +104,10 @@ render: function(ctx) {
         var e = this._entities[i].entity;
         var pos = e.getPos();
 
-        //entity is rectangle
-        if(e.getBoundingBox)
-        {	var rect = e.getBoundingBox();
-       		util.strokeRect(ctx, rect.x, rect.y, rect.width, rect.height);
-        }
 
-        //entity is circle
-        else {
-        	var radius = e.getRadius();
-        	util.strokeCircle(ctx, pos.posX, pos.posY, radius);
-        }
+        var radius = e.getRadius();
+        util.strokeCircle(ctx, pos.posX, pos.posY, radius);
+
 
     }
     ctx.strokeStyle = oldStyle;
