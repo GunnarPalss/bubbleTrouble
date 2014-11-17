@@ -30,6 +30,7 @@ var entityManager = {
 _bubbles   : [],
 _Wires : [],
 _players   : [],
+_powerUps : [],
 
 _bShowBubbles : true,
 
@@ -38,7 +39,7 @@ _bShowBubbles : true,
 
 _generateBubbles : function(number) {
 
-    NUM_BUBBLES = number;
+    var NUM_BUBBLES = number;
 
     for (var i = 0; i < NUM_BUBBLES; ++i) {
         this.generateBubble();
@@ -88,16 +89,23 @@ KILL_ME_NOW : -1,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._bubbles, this._Wires, this._players];
+    this._categories = [this._bubbles, this._Wires, this._players, this._powerUps];
 },
 
 init: function() {
-    //this._generateBubbles();
-    //this._generateplayer();
+    this.generateBubble({
+		cx: g_canvas.width/2,
+		cy: g_canvas.height*0.1
+	});
+    this.generatePlayer({
+        cx : 200,
+        cy : 200
+    });
 },
 
 fireWire: function(cx, cy, velX, velY, rotation) {
 
+	//Ensure that you can only fire one wire at a time
 	if(this._Wires.length === 0)
 	{
 	    this._Wires.push(new Wire({

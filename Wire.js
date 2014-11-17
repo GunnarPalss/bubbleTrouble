@@ -90,8 +90,15 @@ Wire.prototype.collidesWithWall = function () {
 		return false
 };
 
+
+Wire.prototype.getBoundingBox = function()
+{
+	return new Rectangle(this.cx-g_sprites.Wire.width/2, this.cy-g_sprites.Wire.height/2,
+		g_sprites.Wire.width, g_sprites.Wire.height);
+}
+
 Wire.prototype.collidesWithBall = function () {
-	var entity = spatialManager.findEntityInRange(new Rectangle(this.cx-g_sprites.Wire.width/2, this.cy-g_sprites.Wire.height/2, g_sprites.Wire.width, g_sprites.Wire.height));
+	var entity = spatialManager.findEntityInRange(this.getBoundingBox());
 	if(entity)
 	{
 		entity.takeWireHit();

@@ -13,31 +13,6 @@ A revamp of Bubble Trouble!
 var g_canvas = document.getElementById("myCanvas");
 var g_ctx = g_canvas.getContext("2d");
 
-
-
-// =======================
-// CREATE INITIAL PLAYERS
-// =======================
-
-function createInitialPlayers() {
-
-    entityManager.generatePlayer({
-        cx : 200,
-        cy : 200
-    });
-
-}
-
-function createInitialBubbles() {
-	entityManager.generateBubble({
-		cx: g_canvas.width/2,
-		cy: g_canvas.height*0.1
-	});
-}
-
-
-
-
 // =============
 // GATHER INPUTS
 // =============
@@ -165,8 +140,7 @@ function preloadDone() {
 
 
     entityManager.init();
-    createInitialPlayers();
-    createInitialBubbles();
+
 
     main.init();
 }
