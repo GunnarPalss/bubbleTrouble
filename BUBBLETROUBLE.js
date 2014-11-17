@@ -164,9 +164,8 @@ var g_images = {};
 function requestPreloads() {
 
     var requiredImages = {
-        player   : "img/player@2x.png",
-        bubble   : "666.png",
-        bg     : "bg.png",
+        player   : "img/player1.png",
+        bubble   : "img/memo.png",
         wire   : "img/wire.png",
 
         // menu
@@ -195,8 +194,6 @@ function preloadDone() {
     g_sprites.player.count = 5;
 
     g_sprites.bubble  = new Sprite(g_images.bubble);
-
-    g_sprites.bg = new Sprite(g_images.bg);
 
     g_sprites.Wire = new Sprite(g_images.wire);
 

@@ -8,7 +8,7 @@ var gameManager = {
 
 	position: 0,
 
-	introAnimation: true,
+	introAnimation: false,
 
 
 	renderScreen: function(ctx){

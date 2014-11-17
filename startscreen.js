@@ -58,7 +58,6 @@ function preloadDone() {
 	g_sprites.memo  = new Sprite(g_images.memo);
 	g_sprites.gisli  = new Sprite(g_images.gisli);
 	g_sprites.hanna  = new Sprite(g_images.hanna);
-	g_sprites.bg  = new Sprite(g_images.bg);
 	g_sprites.oneplayer  = new Sprite(g_images.oneplayer);
 	g_sprites.twoplayer  = new Sprite(g_images.twoplayer);
 	g_sprites.controls  = new Sprite(g_images.controls);
