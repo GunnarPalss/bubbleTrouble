@@ -2,7 +2,7 @@
 
 entityManager.js
 
-A module which handles arbitrary entity-management for "Asteroids"
+A module which handles arbitrary entity-management for "Bubble Trouble"
 
 
 We create this module as a single global object, and initialise it
@@ -36,11 +36,11 @@ _bShowBubbles : true,
 // "PRIVATE" METHODS
 
 
-_generateBubbles : function() {
-    var i,
-        NUM_BUBBLES = 1;
+_generateBubbles : function(number) {
 
-    for (i = 0; i < NUM_BUBBLES; ++i) {
+    NUM_BUBBLES = number;
+
+    for (var i = 0; i < NUM_BUBBLES; ++i) {
         this.generateBubble();
     }
 },
@@ -92,7 +92,7 @@ deferredSetup : function () {
 },
 
 init: function() {
-    this._generateBubbles();
+    //this._generateBubbles();
     //this._generateplayer();
 },
 
@@ -111,7 +111,7 @@ generateBubble : function(descr) {
    this._bubbles.push(new Bubble(descr));
 },
 
-generateplayer : function(descr) {
+generatePlayer : function(descr) {
     this._players.push(new player(descr));
 },
 
@@ -164,7 +164,7 @@ update: function(du) {
         }
     }
 
-    if (this._bubbles.length === 0) this._generateBubbles();
+    if (this._bubbles.length === 0) this._generateBubbles(1);
 
 },
 

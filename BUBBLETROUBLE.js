@@ -1,63 +1,40 @@
 // =========
-// ASTEROIDS
+// BubbleTrouble
 // =========
 /*
 
-A sort-of-playable version of the classic arcade game.
-
-
-HOMEWORK INSTRUCTIONS:
-
-You have some "TODO"s to fill in again, particularly in:
-
-spatialManager.js
-
-But also, to a lesser extent, in:
-
-Rock.js
-Wire.js
-player.js
-
-
-...Basically, you need to implement the core of the spatialManager,
-and modify the Rock/Wire/player to register (and unregister)
-with it correctly, so that they can participate in collisions.
+A revamp of Bubble Trouble!
 
 */
 
 "use strict";
 
-/* jshint browser: true, devel: true, globalstrict: true */
 
 var g_canvas = document.getElementById("myCanvas");
 var g_ctx = g_canvas.getContext("2d");
 
-/*
-0        1         2         3         4         5         6         7         8
-12345678901234567890123456789012345678901234567890123456789012345678901234567890
-*/
 
 
-// ====================
-// CREATE INITIAL playerS
-// ====================
+// =======================
+// CREATE INITIAL PLAYERS
+// =======================
 
-function createInitialplayers() {
+function createInitialPlayers() {
 
-    entityManager.generateplayer({
+    entityManager.generatePlayer({
         cx : 200,
         cy : 200
     });
 
 }
 
-
-function createInitialships() {
-	entityManager.generateShip({
-		cx : 400,
-        cy : 200
+function createInitialBubbles() {
+	entityManager.generateBubble({
+		cx: g_canvas.width/2,
+		cy: g_canvas.height*0.1
 	});
 }
+
 
 
 
@@ -91,8 +68,6 @@ function updateSimulation(du) {
 
     entityManager.update(du);
 
-    // Prevent perpetual firing!
-    eatKey(player.prototype.KEY_FIRE);
 }
 
 // GAME-SPECIFIC DIAGNOSTICS
@@ -190,8 +165,8 @@ function preloadDone() {
 
 
     entityManager.init();
-    createInitialplayers();
-    //createInitialships();
+    createInitialPlayers();
+    createInitialBubbles();
 
     main.init();
 }
