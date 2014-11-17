@@ -30,10 +30,7 @@ Rectangle.prototype.collidesWithCircle = function(cx, cy, radius)
 }
 
 
-Rectangle.prototype.collidesWithVerticalLine = function(x)
-{
-	return this.x <= x && x <= (this.x + this.width);
-}
+
 
 
 
