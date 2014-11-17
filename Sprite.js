@@ -22,14 +22,21 @@ function Sprite(image) {
     this.scale = 1;
 
     this.count = 1;
+
 }
 
 Sprite.prototype.drawAt = function (ctx, x, y) {
+    this.x = cx;
+    this.y = cy;
+    
     ctx.drawImage(this.image, 
                   x, y);
 };
 
 Sprite.prototype.drawCentredAt = function (ctx, cx, cy, rotation) {
+    this.x = cx;
+    this.y = cy;
+
     if (rotation === undefined) rotation = 0;
     
     var w = this.width,
@@ -50,7 +57,9 @@ Sprite.prototype.drawCentredAt = function (ctx, cx, cy, rotation) {
 
 
 Sprite.prototype.drawWrappedCentredAt = function (ctx, cx, cy, rotation) {
-    
+    this.x = cx;
+    this.y = cy;
+
     // Get "screen width"
     var sw = g_canvas.width;
     
@@ -63,6 +72,8 @@ Sprite.prototype.drawWrappedCentredAt = function (ctx, cx, cy, rotation) {
 };
 
 Sprite.prototype.drawWrappedVerticalCentredAt = function (ctx, cx, cy, rotation) {
+    this.x = cx;
+    this.y = cy;
 
     // Get "screen height"
     var sh = g_canvas.height;
@@ -76,6 +87,10 @@ Sprite.prototype.drawWrappedVerticalCentredAt = function (ctx, cx, cy, rotation)
 };
 
 Sprite.prototype.drawSpriteIndex = function(ctx, index, cx, cy){
+
+    this.x = cx;
+    this.y = cy;
+
     ctx.save();
     ctx.drawImage(this.image, index*this.width/this.count, 0, this.width/this.count, this.height, cx-this.width/this.count/2, cy-this.height/2, this.width/this.count, this.height);
     ctx.restore();

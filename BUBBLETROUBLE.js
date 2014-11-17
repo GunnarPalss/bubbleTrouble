@@ -167,7 +167,20 @@ function requestPreloads() {
         player   : "img/player@2x.png",
         bubble   : "666.png",
         bg     : "bg.png",
-        wire   : "img/wire.png"
+        wire   : "img/wire.png",
+
+        // menu
+        lekatrouble         : "img/menu/lekatrouble.png",
+        memo                : "img/menu/memo.png",
+        gisli               : "img/menu/gislifreyr.png",
+        hanna               : "img/menu/hannabirna.png",
+        menuBg               : "img/menu/bg.png",
+        oneplayer           : "img/menu/1player.png",
+        twoplayer           : "img/menu/2player.png",
+        controls            : "img/menu/controls.png",
+        oneplayer_active    : "img/menu/1player_active.png",
+        twoplayer_active    : "img/menu/2player_active.png",
+        controls_active     : "img/menu/controls_active.png",
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -187,7 +200,15 @@ function preloadDone() {
 
     g_sprites.Wire = new Sprite(g_images.wire);
 
-
+    //Menu
+    g_sprites.lekatrouble  = new Sprite(g_images.lekatrouble);
+    g_sprites.memo  = new Sprite(g_images.memo);
+    g_sprites.gisli  = new Sprite(g_images.gisli);
+    g_sprites.hanna  = new Sprite(g_images.hanna);
+    g_sprites.menuBg  = new Sprite(g_images.menuBg);
+    g_sprites.oneplayer  = new Sprite(g_images.oneplayer);
+    g_sprites.twoplayer  = new Sprite(g_images.twoplayer);
+    g_sprites.controls  = new Sprite(g_images.controls);
 
     entityManager.init();
     createInitialplayers();
