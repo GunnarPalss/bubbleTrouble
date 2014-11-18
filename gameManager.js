@@ -68,7 +68,7 @@ var gameManager = {
 		g_sprites.oneplayer.drawCentredAt(ctx,g_canvas.width/2,this.menuY,0);
 		g_sprites.twoplayer.drawCentredAt(ctx,g_canvas.width/2,this.menuY+50,0);
 		g_sprites.controls.drawCentredAt(ctx,g_canvas.width/2,this.menuY+100,0);
-	
+
 
 	},
 
@@ -77,19 +77,19 @@ var gameManager = {
 			// Init screen animation
 			if(this.memoY < this.finalMemoY){
 				this.memoY += 1.5;
-				this.memoR += 0.003;	
-			} 
+				this.memoR += 0.003;
+			}
 			else this.displayTitle = true;
 
 			if(this.displayTitle){
 				if(this.hannaX > this.finalHannaX){
 					this.hannaX -= 4;
-					this.gisliX += 4;	
+					this.gisliX += 4;
 				}
 				else{
 					if(this.menuY > this.finalMenuY) this.menuY -=10;
 				}
-			}	
+			}
 		}
 		else{
 			this.memoY = this.finalMemoY;
@@ -99,7 +99,7 @@ var gameManager = {
 			this.menuY = this.finalMenuY;
 			this.displayTitle = true;
 		}
-		
+
 
 
 		g_sprites.oneplayer.image = g_images.oneplayer;
@@ -124,8 +124,8 @@ var gameManager = {
 	},
 
 	_isMouseOver: function(sprite){
-	
-		if(util.isBetween(g_mouseX, sprite.x-sprite.width/2, sprite.x+sprite.width/2) && 
+
+		if(util.isBetween(g_mouseX, sprite.x-sprite.width/2, sprite.x+sprite.width/2) &&
 			util.isBetween(g_mouseY, sprite.y-sprite.height/2, sprite.y+sprite.height/2)){
 			return true;
 		}
@@ -134,19 +134,20 @@ var gameManager = {
 
 
 
-	
+
 	//GAME SCREEN -----------
 	_renderGameScreen :function(ctx){
-		console.log('render game screen');
+
 
 		entityManager.render(ctx);
     	if (g_renderSpatialDebug) spatialManager.render(ctx);
-		
+
 	},
 	_updateGameScreen: function(du){
-		console.log('update game screen');
+
 	    processDiagnostics();
 	    entityManager.update(du);
+	    powerUpEffectManager.update(du);
 
 	    // Prevent perpetual firing!
 	    eatKey(player.prototype.KEY_FIRE);
@@ -154,7 +155,7 @@ var gameManager = {
 
 
 	_renderControlScreen :function(ctx){
-		
+
 	},
 	_updateControlScreen: function(du){
 

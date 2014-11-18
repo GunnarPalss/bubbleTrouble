@@ -15,6 +15,7 @@ function PowerUp(descr)
 
 PowerUp.prototype = new Entity();
 
+PowerUp.prototype.ttl = 10000 / NOMINAL_UPDATE_INTERVAL;
 
 
 
@@ -24,12 +25,12 @@ PowerUp.prototype.type =
 	FREEZE : {
 		color: "#0000FF",
 		activate: function() {
-			powerUpEffectManager.activateFreeze(this.ttl);
+			powerUpEffectManager.activateFreeze(PowerUp.prototype.ttl);
 		}},
 	DOUBLE : {
 		color: "#0000",
 		activate: function() {
-			powerUpEffectManager.activateDouble(this.ttl);
+			powerUpEffectManager.activateDouble(PowerUp.prototype.ttl);
 
 	}}
 }
