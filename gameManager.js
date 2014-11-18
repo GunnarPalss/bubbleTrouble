@@ -5,6 +5,7 @@ var gameManager = {
 	startScreen : 0,
 	gameScreen : 1,
 	controlScreen: 2,
+	level : 1,
 
 	position: 0,
 

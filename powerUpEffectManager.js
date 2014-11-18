@@ -4,13 +4,9 @@
 
 var powerUpEffectManager =
 {
+	freeze: {active: false, ttl: 0},
+	double: {active: false, ttl: 0},
 
-
-	init: function()
-	{
-		this.freeze = {active: false, ttl: 0};
-		this.double = {active: false, ttl: 0};
-	},
 
 	update: function(du){
 

@@ -161,7 +161,7 @@ function preloadDone() {
     g_sprites.controls  = new Sprite(g_images.controls);
 
     entityManager.init();
-    powerUpEffectManager.init();
+
 
 
     main.init();
