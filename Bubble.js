@@ -9,24 +9,18 @@
 // A generic contructor which accepts an arbitrary descriptor object
 function Bubble(descr) {
 
-    // Common inherited setup logic from Entity
+  // Common inherited setup logic from Entity
     this.setup(descr);
 
-    if(!this.cx && !this.cy)
-    {
-    	this.randomisePosition();
+  // If bubble does not have a position, create one
+    if(!this.cx && !this.cy) this.spawnPos();
 
-    }
-
-     if(!this.velX && !this.velY)
-    {
-    	this.randomiseVelocity();
-
-    }
+  // Default speed, unless otherwise specified
+    this.velX = this.velX || 2;
+    this.velY = this.velY || 4;
 
 
-
-    // Default sprite and scale, if not otherwise specified
+  // Default sprite and scale, unless otherwise specified
     this.sprite = this.sprite || g_sprites.bubble;
     this.scale  = this.scale  || 1;
 
@@ -35,40 +29,25 @@ function Bubble(descr) {
 
 Bubble.prototype = new Entity();
 
-Bubble.prototype.randomisePosition = function () {
-    // Bubble randomisation defaults (if nothing otherwise specified)
-    this.cx = this.cx || Math.random() * g_canvas.width;
-    this.cy = this.cy || Math.random() * g_canvas.height * 0.7;
-    //this.rotation = this.rotation || 0;
-};
+Bubble.prototype.spawnPos = function () {
 
+  // Range constants to help with position randomization
+  //(Specifies a range away from borders)
+    var baseRange = 50;
+    var rightRange = 850;
+    var bottomRange = 550;
 
-/*  Gravity drasl fyrir seinna...
-Bubble.prototype.computeGravity = function () {
-    return g_useGravity ? NOMINAL_GRAVITY : 0;
-};
-*/
-
-Bubble.prototype.randomiseVelocity = function () {
-    var MIN_SPEED = 20,
-        MAX_SPEED = 50;
-
-    var speed = util.randRange(MIN_SPEED, MAX_SPEED) / SECS_TO_NOMINALS;
-    var dirn = Math.random() * consts.FULL_CIRCLE;
-
-    this.velX = 2;
-    this.velY = 4;
-
-    var MIN_ROT_SPEED = 0.5,
-        MAX_ROT_SPEED = 2.5;
-
-  //  this.velRot = this.velRot ||
-    //    util.randRange(MIN_ROT_SPEED, MAX_ROT_SPEED) / SECS_TO_NOMINALS;
+  // Position randomization within range
+    this.cx = (Math.random()*(rightRange-baseRange))+baseRange;
+    this.cy = (Math.random()*(bottomRange-baseRange))+baseRange;
 };
 
 Bubble.prototype.update = function (du) {
 
+  // Un-collisionize bubble
     spatialManager.unregister(this);
+
+  // Dying = Death
     if (this._isDeadNow) {
         return entityManager.KILL_ME_NOW;
     }
@@ -77,26 +56,34 @@ Bubble.prototype.update = function (du) {
     var prevY = this.cy;
     var nextX = prevX + this.velX;
     var nextY = prevY + this.velY;
+
     var rect = this.getBoundingBox()
-    console.log(rect);
 
-    //Make sure the balls don't go out of bounds:
 
-    if (rect.width/2 + nextX >= g_canvas.width || nextX - rect.width/2 <= 0)  this.velX *=-1;
-    if (rect.height/2 + nextY >= g_canvas.height || nextY - rect.height/2 <= 0) this.velY *=-1;
 
-    var NOMINAL_GRAVITY = 0.12;
-    this.velY += NOMINAL_GRAVITY;
+  // Wall constraints
+    if (rect.width/2 + nextX >= g_canvas.width || nextX - rect.width/2 <= 0) {
+    		this.velX *=-1;
+    }
+
+  // Floor constraint
+  // (Specific ball sizes always bounce equally high)
+    if (rect.height/2 + nextY >= g_canvas.height) {
+		if(this.scale <= 0.25) this.velY = -8;
+		else if(this.scale <= 0.5) this.velY = -10;
+		else if(this.scale <= 1) this.velY = -12;
+    }
+
+
+
+
+  // Simplified gravity-propelled acceleration
+    var gravity = 0.2;
+    this.velY += gravity;
     this.cx += this.velX * du;
     this.cy += this.velY * du;
 
-
-    //this.rotation += 1 * this.velRot;
-    //this.rotation = util.wrapRange(this.rotation,
-    //                             0, consts.FULL_CIRCLE);
-
-    this.wrapPosition();
-
+  // Re-collisionize bubble
     spatialManager.register(this);
 
 };
@@ -113,7 +100,10 @@ Bubble.prototype.evaporateSound = new Audio(
   "sounds/rockEvaporate.ogg");
 
 Bubble.prototype.takeWireHit = function () {
+
+  // Wire hits cause deaths
     this.kill();
+
 
     var rnd = Math.random();
 
@@ -125,19 +115,25 @@ Bubble.prototype.takeWireHit = function () {
     else if(rnd < 0.4)
     	entityManager.generatePowerUp({ cx: this.cx, cy: this.cy, type: PowerUp.prototype.type.DOUBLE});
 
+
+  // Dead bubbles spawn two smaller bubbles
+  // in opposite directions
+
     if (this.scale > 0.25) {
-        this._spawnFragment(this.velX, -Math.abs(2));
-        this._spawnFragment(-this.velX, -Math.abs(2));
+        this._spawnFragment(this.velX, -5);
+        this._spawnFragment(-this.velX,-5);
 
         this.splitSound.play();
         this.splitSound.currentTime = 0;
 
+  // Bubbles of minimal size dont spawn other bubbles
     } else {
         this.evaporateSound.play();
         this.evaporateSound.currentTime = 0;
     }
 };
 
+// Bubbles spawned from other bubbles are half as big
 Bubble.prototype._spawnFragment = function (velX, velY) {
     entityManager.generateBubble({
         cx : this.cx,
@@ -152,7 +148,7 @@ Bubble.prototype.render = function (ctx) {
     var origScale = this.sprite.scale;
     // pass my scale into the sprite, for drawing
     this.sprite.scale = this.scale;
-    this.sprite.drawWrappedCentredAt(
-        ctx, this.cx, this.cy, this.rotation
+    this.sprite.drawCentredAt(
+        ctx, this.cx, this.cy
     );
 };
