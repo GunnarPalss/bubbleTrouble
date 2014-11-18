@@ -77,13 +77,13 @@ Bubble.prototype.update = function (du) {
     var prevY = this.cy;
     var nextX = prevX + this.velX;
     var nextY = prevY + this.velY;
-    var R = this.getRadius()
-
+    var rect = this.getBoundingBox()
+    console.log(rect);
 
     //Make sure the balls don't go out of bounds:
 
-    if (R + nextX >= g_canvas.width || nextX - R <= 0)  this.velX *=-1;
-    if (R + nextY >= g_canvas.height || nextY - R <= 0) this.velY *=-1;
+    if (rect.width/2 + nextX >= g_canvas.width || nextX - rect.width/2 <= 0)  this.velX *=-1;
+    if (rect.height/2 + nextY >= g_canvas.height || nextY - rect.height/2 <= 0) this.velY *=-1;
 
     var NOMINAL_GRAVITY = 0.12;
     this.velY += NOMINAL_GRAVITY;
@@ -101,8 +101,9 @@ Bubble.prototype.update = function (du) {
 
 };
 
-Bubble.prototype.getRadius = function () {
-    return this.scale * (this.sprite.width / 2) * 0.9;
+Bubble.prototype.getBoundingBox = function () {
+    return new Rectangle(this.cx-this.scale*g_sprites.bubble.width/2, this.cy-this.scale*g_sprites.bubble.height/2,
+		this.scale*g_sprites.bubble.width, this.scale*g_sprites.bubble.height);
 };
 
 // HACKED-IN AUDIO (no preloading)
@@ -116,13 +117,12 @@ Bubble.prototype.takeWireHit = function () {
 
     var rnd = Math.random();
 
-    rnd = 0.05;
-    //5% probability of freeze
-    if (rnd < 0.05)
+    //20% probability of freeze
+    if (rnd < 0.2)
     	entityManager.generatePowerUp({ cx: this.cx, cy: this.cy, type: PowerUp.prototype.type.FREEZE});
 
-    //5% probability of double
-    else if(rnd < 0.1)
+    //20% probability of double
+    else if(rnd < 0.4)
     	entityManager.generatePowerUp({ cx: this.cx, cy: this.cy, type: PowerUp.prototype.type.DOUBLE});
 
     if (this.scale > 0.25) {
