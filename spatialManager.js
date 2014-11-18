@@ -74,23 +74,39 @@ unregister: function(entity) {
 
 },
 
-findEntityInRange: function(rect) {
+findEntityInRange: function(obj, rect) {
 
 
     for(var i=0; i<this._entities.length; i++)
     {
-        var entity = this._entities[i].entity;
+    	var entity = this._entities[i].entity;
+
+    	//Wire can only hit bubbles
+    	if(obj instanceof Wire && entity instanceof PowerUp)
+        	continue;
 
 
         //entity is a circle
-        var entityRad = entity.getRadius();
-        var entityPos = entity.getPos();
-        if (rect.collidesWithCircle(entityPos.posX, entityPos.posY, entityRad))
+        if(entity.getRadius)
         {
-            return entity
-        }
+	        var entityRad = entity.getRadius();
+	        var entityPos = entity.getPos();
+	        if (rect.collidesWithCircle(entityPos.posX, entityPos.posY, entityRad))
+	        {
 
+	            return entity
+	        }
 
+	    }
+
+	    else
+	    {
+	    	var collisionRect = entity.getBoundingBox();
+	    	if(rect.collidesWithRect(collisionRect))
+	    	{
+	    		return entity
+	    	}
+	    }
 
     }
 
@@ -106,9 +122,17 @@ render: function(ctx) {
         var e = this._entities[i].entity;
         var pos = e.getPos();
 
+        if(e.getRadius)
+        {
+	        var radius = e.getRadius();
+	        util.strokeCircle(ctx, pos.posX, pos.posY, radius);
+	    }
 
-        var radius = e.getRadius();
-        util.strokeCircle(ctx, pos.posX, pos.posY, radius);
+	    else
+	    {	var rect = e.getBoundingBox();
+	    	util.strokeRect(ctx, rect.x, rect.y, rect.width, rect.height);
+	    }
+
 
 
     }

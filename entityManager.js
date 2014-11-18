@@ -105,8 +105,20 @@ init: function() {
 
 fireWire: function(cx, cy, velX, velY, rotation) {
 
+	var minWireNumber = 0;
+	if (powerUpEffectManager.double.active)
+		minWireNumber = 1;
+
+	if(powerUpEffectManager.freeze.active && this._Wires.length <= minWireNumber)
+	{
+		 this._Wires.push(new Wire({
+	        cx   : cx,
+	        velY : -10
+	    }));
+	}
+
 	//Ensure that you can only fire one wire at a time
-	if(this._Wires.length === 0)
+	else if(this._Wires.length <= minWireNumber)
 	{
 	    this._Wires.push(new Wire({
 	        cx   : cx
@@ -117,6 +129,11 @@ fireWire: function(cx, cy, velX, velY, rotation) {
 
 generateBubble : function(descr) {
    this._bubbles.push(new Bubble(descr));
+},
+
+generatePowerUp : function(descr)
+{
+	this._powerUps.push(new PowerUp(descr));
 },
 
 generatePlayer : function(descr) {

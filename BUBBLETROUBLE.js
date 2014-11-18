@@ -42,6 +42,9 @@ function updateSimulation(du) {
     processDiagnostics();
 
     entityManager.update(du);
+    powerUpEffectManager.update(du);
+
+    eatKey(player.prototype.KEY_FIRE);
 
 }
 
@@ -140,6 +143,7 @@ function preloadDone() {
 
 
     entityManager.init();
+    powerUpEffectManager.init();
 
 
     main.init();

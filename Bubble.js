@@ -4,12 +4,6 @@
 
 "use strict";
 
-/* jshint browser: true, devel: true, globalstrict: true */
-
-/*
-0        1         2         3         4         5         6         7         8
-12345678901234567890123456789012345678901234567890123456789012345678901234567890
-*/
 
 
 // A generic contructor which accepts an arbitrary descriptor object
@@ -28,7 +22,6 @@ function Bubble(descr) {
     {
     	this.randomiseVelocity();
 
-
     }
 
 
@@ -37,11 +30,6 @@ function Bubble(descr) {
     this.sprite = this.sprite || g_sprites.bubble;
     this.scale  = this.scale  || 1;
 
-/*
-    // Diagnostics to check inheritance stuff
-    this._rockProperty = true;
-    console.dir(this);
-*/
 
 };
 
@@ -125,6 +113,17 @@ Bubble.prototype.evaporateSound = new Audio(
 
 Bubble.prototype.takeWireHit = function () {
     this.kill();
+
+    var rnd = Math.random();
+
+    rnd = 0.05;
+    //5% probability of freeze
+    if (rnd < 0.05)
+    	entityManager.generatePowerUp({ cx: this.cx, cy: this.cy, type: PowerUp.prototype.type.FREEZE});
+
+    //5% probability of double
+    else if(rnd < 0.1)
+    	entityManager.generatePowerUp({ cx: this.cx, cy: this.cy, type: PowerUp.prototype.type.DOUBLE});
 
     if (this.scale > 0.25) {
         this._spawnFragment(this.velX, -Math.abs(2));

@@ -2,7 +2,7 @@
 
 
 /*
-A simple class for Rectangle and collisions
+	A simple class for Rectangle and collisions
 */
 function Rectangle(x, y, width, height)
 {
@@ -13,6 +13,10 @@ function Rectangle(x, y, width, height)
 }
 
 
+/*
+	Returns true if rectangle collides with a given circle
+	otherwise false
+*/
 Rectangle.prototype.collidesWithCircle = function(cx, cy, radius)
 {
     var distX = Math.abs(cx - this.x-this.width/2);
@@ -29,8 +33,13 @@ Rectangle.prototype.collidesWithCircle = function(cx, cy, radius)
     return (dx*dx+dy*dy<=(radius*radius));
 }
 
-
-
+Rectangle.prototype.collidesWithRect = function(rect)
+{
+	  return !(rect.x > this.x+this.width ||
+           rect.x+rect.width < this.x ||
+           rect.y > this.y+this.height ||
+           rect.y+rect.height < this.y);
+}
 
 
 

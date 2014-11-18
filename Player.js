@@ -4,12 +4,7 @@
 
 "use strict";
 
-/* jshint browser: true, devel: true, globalstrict: true */
 
-/*
-0        1         2         3         4         5         6         7         8
-12345678901234567890123456789012345678901234567890123456789012345678901234567890
-*/
 
 
 // A generic contructor which accepts an arbitrary descriptor object
@@ -109,8 +104,8 @@ player.prototype.update = function (du) {
 	this.maybeFireWire();
 
 
-	if(this.collidesWithBall())
-		this.kill();
+	this.handleCollision();
+
 
 };
 
@@ -122,18 +117,24 @@ player.prototype.maybeFireWire = function () {
 
 
 player.prototype.getBoundingBox = function() {
-	return new Rectangle(this.cx-g_sprites.player.width/g_sprites.player.count/2, this.cy-g_sprites.player.height/2, g_sprites.player.width/g_sprites.player.count , g_sprites.player.height);
+	return new Rectangle(this.cx-g_sprites.player.width/g_sprites.player.count/2,
+		this.cy-g_sprites.player.height/2, g_sprites.player.width/g_sprites.player.count ,
+		g_sprites.player.height);
 }
 
-player.prototype.collidesWithBall = function () {
-	var entity = spatialManager.findEntityInRange(this.getBoundingBox());
+player.prototype.handleCollision = function () {
+	var entity = spatialManager.findEntityInRange(this, this.getBoundingBox());
 
-	if(entity)
+	if(entity && entity instanceof PowerUp)
 	{
-		return true
+		entity.type.activate();
+		entity.kill();
 	}
-	else
-		return false
+	else if (entity && entity instanceof Bubble)
+	{
+		this.kill();
+	}
+
 
 };
 

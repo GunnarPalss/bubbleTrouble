@@ -49,6 +49,7 @@ Wire.prototype.cx = 200;
 Wire.prototype.cy = 900;
 Wire.prototype.velX = 0;
 Wire.prototype.velY = -10;
+Wire.prototype.ttl = 5000 / NOMINAL_UPDATE_INTERVAL;
 
 
 
@@ -57,15 +58,17 @@ Wire.prototype.update = function (du) {
 	// TODO: YOUR STUFF HERE! --- Unregister and check for death
 
 	//Should kill wire if it has hit a bubble
-	if(this._isDeadNow)
+	this.ttl -= du;
+	if(this._isDeadNow || this.ttl < 0)
 		return entityManager.KILL_ME_NOW
 
-	this.cx += this.velX * du;
-	this.cy += this.velY * du;
+
+	if(!(powerUpEffectManager.freeze.active&&this.cy<=g_sprites.Wire.height/2))
+		this.cy += this.velY * du;
 
 
 
-	if(this.collidesWithWall())
+	if(this.collidesWithWall() && !powerUpEffectManager.freeze.active)
 		return entityManager.KILL_ME_NOW
 
 
@@ -98,7 +101,7 @@ Wire.prototype.getBoundingBox = function()
 }
 
 Wire.prototype.collidesWithBall = function () {
-	var entity = spatialManager.findEntityInRange(this.getBoundingBox());
+	var entity = spatialManager.findEntityInRange(this, this.getBoundingBox());
 	if(entity)
 	{
 		entity.takeWireHit();
