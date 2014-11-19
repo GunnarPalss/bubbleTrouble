@@ -5,7 +5,11 @@ var gameManager = {
 	startScreen : 0,
 	gameScreen : 1,
 	controlScreen: 2,
+
 	level : 1,
+	playerOneLife: 3,
+	playerTwoLife: 3,
+	twoPlayer: false,
 
 	position: 0,
 
@@ -140,6 +144,17 @@ var gameManager = {
 		entityManager.render(ctx);
     	if (g_renderSpatialDebug) spatialManager.render(ctx);
 
+
+    	for(var i=0; i < this.playerOneLife; i++){
+    		g_sprites.playerOneLifeIcon.drawCentredAt(ctx,g_canvas.width-(30+45*i),30,0);
+    	}
+
+   		if(this.twoplayer){
+   			for(var i=0; i < this.playerTwoLife; i++){
+   				g_sprites.playerTwoLifeIcon.drawCentredAt(ctx,30+45*i,30)
+   			}
+   		}
+
 	},
 	_updateGameScreen: function(du){
 	    processDiagnostics();
@@ -163,11 +178,20 @@ var gameManager = {
 		}
 
 	},
+
 	_updateControlScreen: function(du){
 
 	},
 
+	reset: function(du){
 
+		this.level = 1;
+		this.playerOneLife = 5;
+		this.playerTwoLife = 5;
+		this.twoPlayer = false;
 
-
+		entityManager.reset();
+		powerUpEffectManager.reset();
+	
+	},
 }

@@ -35,19 +35,6 @@ function gatherInputs() {
 // It then delegates the game-specific logic to `updateSimulation`
 
 
-// GAME-SPECIFIC UPDATE LOGIC
-
-function updateSimulation(du) {
-
-    processDiagnostics();
-
-    entityManager.update(du);
-    powerUpEffectManager.update(du);
-
-    eatKey(player.prototype.KEY_FIRE);
-
-}
-
 // GAME-SPECIFIC DIAGNOSTICS
 
 var g_allowMixedActions = true;
@@ -84,30 +71,6 @@ function processDiagnostics() {
 }
 
 
-
-
-// =================
-// RENDER SIMULATION
-// =================
-
-// We take a very layered approach here...
-//
-// The primary `render` routine handles generic stuff such as
-// the diagnostic toggles (including screen-clearing).
-//
-// It then delegates the game-specific logic to `gameRender`
-
-
-// GAME-SPECIFIC RENDERING
-
-function renderSimulation(ctx) {
-
-    entityManager.render(ctx);
-
-    if (g_renderSpatialDebug) spatialManager.render(ctx);
-}
-
-
 // =============
 // PRELOAD STUFF
 // =============
@@ -136,6 +99,9 @@ function requestPreloads() {
         controlScreen       : "img/controls.png",
         back                : "img/back.png",
         back_active         : "img/back_active.png",
+
+        playerOneLifeIcon   : "img/Hanna_life.png",
+        playerTwoLifeIcon   : "img/Gisli_life.png",
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -152,6 +118,9 @@ function preloadDone() {
     g_sprites.bubble  = new Sprite(g_images.bubble);
 
     g_sprites.Wire = new Sprite(g_images.wire);
+
+    g_sprites.playerOneLifeIcon = new Sprite(g_images.playerOneLifeIcon);
+    g_sprites.playerTwoLifeIcon = new Sprite(g_images.playerTwoLifeIcon);
 
     //Menu
     g_sprites.lekatrouble  = new Sprite(g_images.lekatrouble);
