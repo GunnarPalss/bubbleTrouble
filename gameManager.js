@@ -11,7 +11,7 @@ var gameManager = {
 
 	position: 0,
 
-	introAnimation: true,
+	introAnimation: false,
 
 
 	renderScreen: function(ctx){
@@ -119,6 +119,7 @@ var gameManager = {
 				document.getElementById("intro").pause();
 				document.getElementById("intro").currentTime = 0;
 				entityManager.init();
+				powerUpEffectManager.init();
 			}
 		}
 		else if(this._isMouseOver(g_sprites.twoplayer)){
@@ -127,7 +128,7 @@ var gameManager = {
 			if(g_mouseButton) {
 				this.position = 1;
 				document.getElementById("intro").pause();
-				document.getElementById("intro").currentTime = 0;				
+				document.getElementById("intro").currentTime = 0;
 				entityManager.init();
 			}
 		}
@@ -230,8 +231,6 @@ var gameManager = {
 	reset: function(du){
 
 		this.level = 1;
-		this.playerOneLife = 5;
-		this.playerTwoLife = 5;
 		this.twoPlayer = false;
 
 		entityManager.reset();

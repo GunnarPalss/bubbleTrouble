@@ -136,8 +136,8 @@ function preloadDone() {
     g_sprites.playerOneLifeIcon = new Sprite(g_images.playerOneLifeIcon);
     g_sprites.playerTwoLifeIcon = new Sprite(g_images.playerTwoLifeIcon);
 
-    g_sprites.powerFalki = new Sprite(g_images.powerFalki);
-    g_sprites.powerPopo = new Sprite(g_images.powerPopo);
+    g_sprites.freeze= new Sprite(g_images.powerFalki);
+    g_sprites.double = new Sprite(g_images.powerPopo);
 
     g_sprites.barFalki = new Sprite(g_images.barFalki);
     g_sprites.barPopo = new Sprite(g_images.barPopo);

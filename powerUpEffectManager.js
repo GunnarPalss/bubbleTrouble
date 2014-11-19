@@ -1,34 +1,47 @@
 "use strict";
 
+/*
 
+Manages the effect of powerUps once player's
+claim them.
+
+*/
 
 var powerUpEffectManager =
 {
-	freeze: {active: false, ttl: 0},
-	double: {active: false, ttl: 0},
+	init: function()
+		{
+			var pManager = this;
+			Object.keys(powerUpTypes).forEach(function(powerUpId)
+			{
+
+				pManager[powerUpId] = {active: false, ttl: 0};
+
+			});
+		},
+
 
 
 	update: function(du){
 
-		if(this.freeze.active)
-		{
-			this.freeze.ttl -= du;
-			if(this.freeze.ttl <= 0)
-			{
-				this.freeze.active = false;
-				this.ttl = 0;
-			};
-		};
 
-		if(this.double.active)
+		var pManager = this;
+		Object.keys(powerUpTypes).forEach(function(powerUpId)
 		{
-			this.double.ttl -= du;
-			if(this.double.ttl <= 0)
+			//check if powerup is active decreas its time to live
+			//and kill it if necessary
+			if(pManager[powerUpId].active)
 			{
-				this.double.active = false;
-				this.double.ttl = 0;
-			};
-		}
+				pManager[powerUpId].ttl -= du;
+				if(pManager[powerUpId].ttl)
+				{
+				pManager[powerUpId].active = false;
+					pManager[powerUpId].ttl = 0
+				}
+			}
+
+		});
+
 	},
 
 	activateFreeze: function(ttl)
@@ -44,8 +57,7 @@ var powerUpEffectManager =
 	},
 	reset: function()
 	{
-		this.freeze = {active: false, ttl: 0};
-		this.double = {active: false, ttl: 0};
+		this.init();
 	}
 
 
