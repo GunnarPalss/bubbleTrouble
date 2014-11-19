@@ -117,6 +117,7 @@ var gameManager = {
 		}
 		else if(this._isMouseOver(g_sprites.twoplayer)){
 			g_sprites.twoplayer.image = g_images.twoplayer_active;
+			this.twoPlayer = true;
 			if(g_mouseButton) this.position = 1;
 		}
 		else if(this._isMouseOver(g_sprites.controls)){
@@ -141,6 +142,25 @@ var gameManager = {
 
 	//GAME SCREEN -----------
 	_renderGameScreen :function(ctx){
+
+		switch(this.level){
+			case 1:
+				g_sprites.menuBg.image = g_images.menuBg;
+				break;
+			case 2:
+				g_sprites.menuBg.image = g_images.levelTwoBg;
+				break;
+			case 3:
+				g_sprites.menuBg.image = g_images.levelThreeBg;
+				break;
+			case 4:
+				g_sprites.menuBg.image = g_images.levelFourBg;
+				break;
+			case 5:
+				g_sprites.menuBg.image = g_images.levelFiveBg;
+				break;
+		}
+
 		entityManager.render(ctx);
     	if (g_renderSpatialDebug) spatialManager.render(ctx);
 
@@ -149,7 +169,7 @@ var gameManager = {
     		g_sprites.playerOneLifeIcon.drawCentredAt(ctx,g_canvas.width-(30+45*i),30,0);
     	}
 
-   		if(this.twoplayer){
+   		if(this.twoPlayer){
    			for(var i=0; i < this.playerTwoLife; i++){
    				g_sprites.playerTwoLifeIcon.drawCentredAt(ctx,30+45*i,30)
    			}

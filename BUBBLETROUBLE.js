@@ -102,6 +102,11 @@ function requestPreloads() {
 
         playerOneLifeIcon   : "img/Hanna_life.png",
         playerTwoLifeIcon   : "img/Gisli_life.png",
+
+        levelTwoBg          : "img/bg2.png",
+        levelThreeBg        : "img/bg3.png",
+        levelFourBg         : "img/bg4.png",
+        levelFiveBg         : "img/bg5.png",
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
