@@ -17,7 +17,7 @@ function Bubble(descr) {
 
   // Default speed, unless otherwise specified
     this.velX = this.velX || 2;
-    this.velY = this.velY || 4;
+    this.velY = this.velY || -4;
 
 
   // Default sprite and scale, unless otherwise specified
@@ -35,7 +35,7 @@ Bubble.prototype.spawnPos = function () {
   //(Specifies a range away from borders)
     var baseRange = 50;
     var rightRange = 850;
-    var bottomRange = 550;
+    var bottomRange = 300;
 
   // Position randomization within range
     this.cx = (Math.random()*(rightRange-baseRange))+baseRange;
@@ -123,8 +123,11 @@ Bubble.prototype.takeWireHit = function () {
         this._spawnFragment(this.velX, -5);
         this._spawnFragment(-this.velX,-5);
 
-        this.splitSound.play();
-        this.splitSound.currentTime = 0;
+        var randomQuote = Math.floor(Math.random()*(6-1)+1);
+        if (this.scale >=0.75){
+        document.getElementById(randomQuote).play();
+        document.getElementById(randomQuote).currentTime = 0;
+      };
 
   // Bubbles of minimal size dont spawn other bubbles
     } else {
