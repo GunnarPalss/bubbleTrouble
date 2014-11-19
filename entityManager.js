@@ -189,7 +189,10 @@ update: function(du) {
         }
     }
 
-    if (this._bubbles.length === 0) this._generateBubbles(1);
+    if (this._bubbles.length === 0)
+    {
+    		this._generateBubbles(++gameManager.level);
+    }
 
 },
 

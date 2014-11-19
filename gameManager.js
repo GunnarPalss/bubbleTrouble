@@ -5,6 +5,7 @@ var gameManager = {
 	startScreen : 0,
 	gameScreen : 1,
 	controlScreen: 2,
+	level : 1,
 
 	position: 0,
 
@@ -68,7 +69,7 @@ var gameManager = {
 		g_sprites.oneplayer.drawCentredAt(ctx,g_canvas.width/2,this.menuY,0);
 		g_sprites.twoplayer.drawCentredAt(ctx,g_canvas.width/2,this.menuY+50,0);
 		g_sprites.controls.drawCentredAt(ctx,g_canvas.width/2,this.menuY+100,0);
-	
+
 
 	},
 
@@ -77,19 +78,19 @@ var gameManager = {
 			// Init screen animation
 			if(this.memoY < this.finalMemoY){
 				this.memoY += 1.5;
-				this.memoR += 0.003;	
-			} 
+				this.memoR += 0.003;
+			}
 			else this.displayTitle = true;
 
 			if(this.displayTitle){
 				if(this.hannaX > this.finalHannaX){
 					this.hannaX -= 4;
-					this.gisliX += 4;	
+					this.gisliX += 4;
 				}
 				else{
 					if(this.menuY > this.finalMenuY) this.menuY -=10;
 				}
-			}	
+			}
 		}
 		else{
 			this.memoY = this.finalMemoY;
@@ -99,7 +100,7 @@ var gameManager = {
 			this.menuY = this.finalMenuY;
 			this.displayTitle = true;
 		}
-		
+
 
 
 		g_sprites.oneplayer.image = g_images.oneplayer;
@@ -133,16 +134,17 @@ var gameManager = {
 
 
 
-	
+
 	//GAME SCREEN -----------
 	_renderGameScreen :function(ctx){
 		entityManager.render(ctx);
     	if (g_renderSpatialDebug) spatialManager.render(ctx);
-		
+
 	},
 	_updateGameScreen: function(du){
 	    processDiagnostics();
 	    entityManager.update(du);
+	    powerUpEffectManager.update(du);
 
 	    // Prevent perpetual firing!
 	    eatKey(player.prototype.KEY_FIRE);

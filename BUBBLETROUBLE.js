@@ -166,7 +166,7 @@ function preloadDone() {
     g_sprites.back = new Sprite(g_images.back);
 
     entityManager.init();
-    powerUpEffectManager.init();
+
 
 
     main.init();
