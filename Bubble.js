@@ -17,7 +17,7 @@ function Bubble(descr) {
 
   // Default speed, unless otherwise specified
     this.velX = this.velX || 2;
-    this.velY = this.velY || 4;
+    this.velY = this.velY || -4;
 
 
   // Default sprite and scale, unless otherwise specified
@@ -35,7 +35,7 @@ Bubble.prototype.spawnPos = function () {
   //(Specifies a range away from borders)
     var baseRange = 50;
     var rightRange = 850;
-    var bottomRange = 550;
+    var bottomRange = 300;
 
   // Position randomization within range
     this.cx = (Math.random()*(rightRange-baseRange))+baseRange;
