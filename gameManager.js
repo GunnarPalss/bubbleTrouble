@@ -124,7 +124,6 @@ var gameManager = {
 	},
 
 	_isMouseOver: function(sprite){
-	
 		if(util.isBetween(g_mouseX, sprite.x-sprite.width/2, sprite.x+sprite.width/2) && 
 			util.isBetween(g_mouseY, sprite.y-sprite.height/2, sprite.y+sprite.height/2)){
 			return true;
@@ -137,14 +136,11 @@ var gameManager = {
 	
 	//GAME SCREEN -----------
 	_renderGameScreen :function(ctx){
-		console.log('render game screen');
-
 		entityManager.render(ctx);
     	if (g_renderSpatialDebug) spatialManager.render(ctx);
 		
 	},
 	_updateGameScreen: function(du){
-		console.log('update game screen');
 	    processDiagnostics();
 	    entityManager.update(du);
 
@@ -154,7 +150,16 @@ var gameManager = {
 
 
 	_renderControlScreen :function(ctx){
-		
+		g_sprites.menuBg.drawCentredAt(ctx,g_canvas.width/2,g_canvas.height/2,0);
+		g_sprites.controlScreen.drawCentredAt(ctx,g_canvas.width/2,g_canvas.height/2.5,0);
+		g_sprites.back.drawCentredAt(ctx,g_canvas.width/2,this.menuY+150,0);
+
+		g_sprites.back.image = g_images.back;
+		if(this._isMouseOver(g_sprites.back)){
+			g_sprites.back.image = g_images.back_active;
+			if(g_mouseButton) this.position = 0;
+		}
+
 	},
 	_updateControlScreen: function(du){
 

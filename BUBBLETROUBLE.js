@@ -133,6 +133,9 @@ function requestPreloads() {
         oneplayer_active    : "img/menu/1player_active.png",
         twoplayer_active    : "img/menu/2player_active.png",
         controls_active     : "img/menu/controls_active.png",
+        controlScreen       : "img/controls.png",
+        back                : "img/back.png",
+        back_active         : "img/back_active.png",
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -159,6 +162,8 @@ function preloadDone() {
     g_sprites.oneplayer  = new Sprite(g_images.oneplayer);
     g_sprites.twoplayer  = new Sprite(g_images.twoplayer);
     g_sprites.controls  = new Sprite(g_images.controls);
+    g_sprites.controlScreen = new Sprite(g_images.controlScreen);
+    g_sprites.back = new Sprite(g_images.back);
 
     entityManager.init();
     powerUpEffectManager.init();
