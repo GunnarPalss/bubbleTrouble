@@ -224,7 +224,8 @@ reset: function() {
 	this._Wires = [];
 	this._players   = [];
 	this._powerUps = [];
-}
+},
+
 
 }
 

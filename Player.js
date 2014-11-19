@@ -132,7 +132,19 @@ player.prototype.handleCollision = function () {
 	}
 	else if (entity && entity instanceof Bubble)
 	{
-		this.kill();
+		gameManager.playerOneLife--;
+		entity.kill();
+		for(var i = 0; i < entityManager._powerUps.length; i++)
+		{
+			entityManager._powerUps[i].kill();
+		}
+
+		for(var i = 0; i < entityManager._bubbles.length; i++)
+		{
+			entityManager._bubbles[i].kill();
+		}
+
+		entityManager._generateBubbles(gameManager.level);
 	}
 
 
