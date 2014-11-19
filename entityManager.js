@@ -216,6 +216,14 @@ render: function(ctx) {
         }
         debugY += 10;
     }
+},
+
+reset: function() {
+
+	this._bubbles  = [];
+	this._Wires = [];
+	this._players   = [];
+	this._powerUps = [];
 }
 
 }

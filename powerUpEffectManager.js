@@ -41,6 +41,11 @@ var powerUpEffectManager =
 
 		this.double.active = true;
 		this.double.ttl = ttl;
+	},
+	reset: function()
+	{
+		this.freeze = {active: false, ttl: 0};
+		this.double = {active: false, ttl: 0};
 	}
 
 
