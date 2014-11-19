@@ -123,8 +123,11 @@ Bubble.prototype.takeWireHit = function () {
         this._spawnFragment(this.velX, -5);
         this._spawnFragment(-this.velX,-5);
 
-        this.splitSound.play();
-        this.splitSound.currentTime = 0;
+        var randomQuote = Math.floor(Math.random()*(6-1)+1);
+        if (this.scale >=0.75){
+        document.getElementById(randomQuote).play();
+        document.getElementById(randomQuote).currentTime = 0;
+      };
 
   // Bubbles of minimal size dont spawn other bubbles
     } else {
