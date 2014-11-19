@@ -81,6 +81,7 @@ function requestPreloads() {
 
     var requiredImages = {
         player   : "img/player1.png",
+        player2 : "img/player2.png",
         bubble   : "img/memo.png",
         wire   : "img/wire.png",
 
@@ -89,7 +90,7 @@ function requestPreloads() {
         memo                : "img/menu/memo.png",
         gisli               : "img/menu/gislifreyr.png",
         hanna               : "img/menu/hannabirna.png",
-        menuBg               : "img/menu/bg.png",
+        menuBg              : "img/menu/bg.png",
         oneplayer           : "img/menu/1player.png",
         twoplayer           : "img/menu/2player.png",
         controls            : "img/menu/controls.png",
@@ -118,7 +119,10 @@ var g_sprites = {};
 function preloadDone() {
 
     g_sprites.player  = new Sprite(g_images.player);
+    g_sprites.player2 = new Sprite(g_images.player2);
+
     g_sprites.player.count = 5;
+    g_sprites.player2.count = 5;
 
     g_sprites.bubble  = new Sprite(g_images.bubble);
 
@@ -139,7 +143,7 @@ function preloadDone() {
     g_sprites.controlScreen = new Sprite(g_images.controlScreen);
     g_sprites.back = new Sprite(g_images.back);
 
-    entityManager.init();
+
 
 
 

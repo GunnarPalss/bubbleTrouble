@@ -7,8 +7,6 @@ var gameManager = {
 	controlScreen: 2,
 
 	level : 1,
-	playerOneLife: 3,
-	playerTwoLife: 3,
 	twoPlayer: false,
 
 	position: 0,
@@ -113,12 +111,18 @@ var gameManager = {
 
 		if(this._isMouseOver(g_sprites.oneplayer)){
 			g_sprites.oneplayer.image = g_images.oneplayer_active;
-			if(g_mouseButton) this.position = 1;
+			if(g_mouseButton)  {
+				this.position = 1;
+				entityManager.init();
+			}
 		}
 		else if(this._isMouseOver(g_sprites.twoplayer)){
 			g_sprites.twoplayer.image = g_images.twoplayer_active;
 			this.twoPlayer = true;
-			if(g_mouseButton) this.position = 1;
+			if(g_mouseButton) {
+				this.position = 1;
+				entityManager.init();
+			}
 		}
 		else if(this._isMouseOver(g_sprites.controls)){
 			g_sprites.controls.image = g_images.controls_active;
@@ -130,7 +134,7 @@ var gameManager = {
 	},
 
 	_isMouseOver: function(sprite){
-		if(util.isBetween(g_mouseX, sprite.x-sprite.width/2, sprite.x+sprite.width/2) && 
+		if(util.isBetween(g_mouseX, sprite.x-sprite.width/2, sprite.x+sprite.width/2) &&
 			util.isBetween(g_mouseY, sprite.y-sprite.height/2, sprite.y+sprite.height/2)){
 			return true;
 		}
@@ -165,12 +169,12 @@ var gameManager = {
     	if (g_renderSpatialDebug) spatialManager.render(ctx);
 
 
-    	for(var i=0; i < this.playerOneLife; i++){
+    	for(var i=0; i < entityManager._players[0].lives; i++){
     		g_sprites.playerOneLifeIcon.drawCentredAt(ctx,g_canvas.width-(30+45*i),30,0);
     	}
 
    		if(this.twoPlayer){
-   			for(var i=0; i < this.playerTwoLife; i++){
+   			for(var i=0; i < entityManager._players[1].lives; i++){
    				g_sprites.playerTwoLifeIcon.drawCentredAt(ctx,30+45*i,30)
    			}
    		}
@@ -182,7 +186,11 @@ var gameManager = {
 	    powerUpEffectManager.update(du);
 
 	    // Prevent perpetual firing!
-	    eatKey(player.prototype.KEY_FIRE);
+	    eatKey(entityManager._players[0].KEY_FIRE);
+	    if(this.twoPlayer)
+	    {
+	    	eatKey(entityManager._players[1].KEY_FIRE);
+	    }
 	},
 
 
@@ -212,6 +220,6 @@ var gameManager = {
 
 		entityManager.reset();
 		powerUpEffectManager.reset();
-	
+
 	},
 }

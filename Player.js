@@ -16,17 +16,18 @@ function player(descr) {
 	this.rememberResets();
 
 	// Default sprite, if not otherwise specified
-	this.sprite = this.sprite || g_sprites.player;
+	this.sprite = this.sprite || this.sprite;
 
 	// Set normal drawing scale, and warp state off
 	this._scale = 2;
-	this.cy = g_canvas.height - g_sprites.player.height / 2;
+	this.cy = g_canvas.height - this.sprite.height / 2;
 
 	this.frameIndex = 2;
 
 	this.stepLength = 10;
 	this.leftStepCount = this.stepLength;
 	this.rightStepCount = this.stepLength;
+	this.activeWires = 0;
 };
 
 player.prototype = new Entity();
@@ -37,9 +38,6 @@ player.prototype.rememberResets = function () {
 	this.reset_cy = this.cy;
 };
 
-player.prototype.KEY_LEFT   = 'A'.charCodeAt(0);
-player.prototype.KEY_RIGHT  = 'D'.charCodeAt(0);
-player.prototype.KEY_FIRE   = ' '.charCodeAt(0);
 
 // Initial, inheritable, default values
 player.prototype.cx = g_canvas.width/2;
@@ -62,7 +60,7 @@ player.prototype.update = function (du) {
 		this.leftStepCount = 0;
 		this.rightStepCount = 0;
 	}
-	else if(keys[this.KEY_LEFT] && this.cx > g_sprites.player.width/g_sprites.player.count/2){
+	else if(keys[this.KEY_LEFT] && this.cx > this.sprite.width/this.sprite.count/2){
 		this.cx -= 2;
 
 		this.rightStepCount = this.stepLength;
@@ -78,7 +76,7 @@ player.prototype.update = function (du) {
 		}
 		else this.leftStepCount++;
 	}
-	else if(keys[this.KEY_RIGHT] && this.cx < g_canvas.width-g_sprites.player.width/g_sprites.player.count/2){
+	else if(keys[this.KEY_RIGHT] && this.cx < g_canvas.width-this.sprite.width/this.sprite.count/2){
 		this.cx += 2;
 
 		this.leftStepCount = this.stepLength;
@@ -111,15 +109,15 @@ player.prototype.update = function (du) {
 
 player.prototype.maybeFireWire = function () {
 	if (keys[this.KEY_FIRE]) {
-		entityManager.fireWire(this.cx);
+		entityManager.fireWire(this.cx, this);
 	}
 };
 
 
 player.prototype.getBoundingBox = function() {
-	return new Rectangle(this.cx-g_sprites.player.width/g_sprites.player.count/2,
-		this.cy-g_sprites.player.height/2, g_sprites.player.width/g_sprites.player.count ,
-		g_sprites.player.height);
+	return new Rectangle(this.cx-this.sprite.width/this.sprite.count/2,
+		this.cy-this.sprite.height/2, this.sprite.width/this.sprite.count ,
+		this.sprite.height);
 }
 
 player.prototype.handleCollision = function () {
@@ -132,7 +130,7 @@ player.prototype.handleCollision = function () {
 	}
 	else if (entity && entity instanceof Bubble)
 	{
-		gameManager.playerOneLife--;
+		this.lives--;
 		entity.kill();
 		for(var i = 0; i < entityManager._powerUps.length; i++)
 		{

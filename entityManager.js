@@ -28,7 +28,8 @@ var entityManager = {
 // "PRIVATE" DATA
 
 _bubbles   : [],
-_Wires : [],
+_WiresPlayerOne : [],
+_WiresPlayerTwo: [],
 _players   : [],
 _powerUps : [],
 
@@ -89,7 +90,7 @@ KILL_ME_NOW : -1,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._bubbles, this._Wires, this._players, this._powerUps];
+    this._categories = [this._bubbles, this._WiresPlayerOne, this._WiresPlayerTwo, this._players, this._powerUps];
 },
 
 init: function() {
@@ -99,28 +100,58 @@ init: function() {
 	});
     this.generatePlayer({
         cx : 200,
-        cy : 200
+        cy : 200,
+        lives : 3,
+        playerIndex: 0,
+        sprite: g_sprites.player,
+        KEY_LEFT: 'A'.charCodeAt(0),
+		KEY_RIGHT: 'D'.charCodeAt(0),
+		KEY_FIRE: ' '.charCodeAt(0)
+
     });
+
+    if(gameManager.twoPlayer) {
+    	this.generatePlayer({
+    		cx: 400,
+    		cy: 200,
+    		lives: 3,
+    		playerIndex: 1,
+    		sprite: g_sprites.player2,
+    		KEY_LEFT: 37,
+			KEY_RIGHT: 39,
+			KEY_FIRE: 38
+
+    	});
+	}
 },
 
-fireWire: function(cx, cy, velX, velY, rotation) {
+fireWire: function(cx , player) {
+
+
+	if(player.playerIndex === 0)
+		var wires = this._WiresPlayerOne;
+	else
+		var wires = this._WiresPlayerTwo;
+
 
 	var minWireNumber = 0;
 	if (powerUpEffectManager.double.active)
 		minWireNumber = 1;
 
-	if(powerUpEffectManager.freeze.active && this._Wires.length <= minWireNumber)
+	if(powerUpEffectManager.freeze.active && wires.length <= minWireNumber)
 	{
-		 this._Wires.push(new Wire({
+
+		 wires.push(new Wire({
 	        cx   : cx,
 	        velY : -10
 	    }));
 	}
 
 	//Ensure that you can only fire one wire at a time
-	else if(this._Wires.length <= minWireNumber)
+	else if(wires.length <= minWireNumber)
 	{
-	    this._Wires.push(new Wire({
+
+	    wires.push(new Wire({
 	        cx   : cx
 	    }));
 	}
@@ -221,7 +252,8 @@ render: function(ctx) {
 reset: function() {
 
 	this._bubbles  = [];
-	this._Wires = [];
+	this._WiresPlayerOne = [];
+	this._WiresPlayerTwo = [];
 	this._players   = [];
 	this._powerUps = [];
 },
