@@ -26,7 +26,7 @@ var powerUpEffectManager =
 			if(this.double.ttl <= 0)
 			{
 				this.double.active = false;
-				this.double = 0;
+				this.double.ttl = 0;
 			};
 		}
 	},
@@ -38,6 +38,7 @@ var powerUpEffectManager =
 	},
 	activateDouble: function(ttl)
 	{
+
 		this.double.active = true;
 		this.double.ttl = ttl;
 	}
