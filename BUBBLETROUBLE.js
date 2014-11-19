@@ -107,6 +107,11 @@ function requestPreloads() {
         levelThreeBg        : "img/bg3.png",
         levelFourBg         : "img/bg4.png",
         levelFiveBg         : "img/bg5.png",
+
+        powerFalki          : "img/powerFalki.png",
+        powerPopo           : "img/powerPopo.png",
+        barFalki            : "img/barFalki.png",
+        barPopo             : "img/barPopo.png",
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -126,6 +131,12 @@ function preloadDone() {
 
     g_sprites.playerOneLifeIcon = new Sprite(g_images.playerOneLifeIcon);
     g_sprites.playerTwoLifeIcon = new Sprite(g_images.playerTwoLifeIcon);
+
+    g_sprites.powerFalki = new Sprite(g_images.powerFalki);
+    g_sprites.powerPopo = new Sprite(g_images.powerPopo);
+
+    g_sprites.barFalki = new Sprite(g_images.barFalki);
+    g_sprites.barPopo = new Sprite(g_images.barPopo);
 
     //Menu
     g_sprites.lekatrouble  = new Sprite(g_images.lekatrouble);

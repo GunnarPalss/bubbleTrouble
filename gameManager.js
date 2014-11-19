@@ -13,7 +13,7 @@ var gameManager = {
 
 	position: 0,
 
-	introAnimation: false,
+	introAnimation: true,
 
 
 	renderScreen: function(ctx){
@@ -173,6 +173,15 @@ var gameManager = {
    			for(var i=0; i < this.playerTwoLife; i++){
    				g_sprites.playerTwoLifeIcon.drawCentredAt(ctx,30+45*i,30)
    			}
+   		}
+
+   		if(powerUpEffectManager.freeze.active){
+   			g_sprites.barFalki.drawCentredAt(ctx,g_canvas.width/2 + 30, 50)
+   			//powerUpEffectManager.freeze.ttl
+   		}
+
+   		if(powerUpEffectManager.double.active){
+   			g_sprites.barPopo.drawCentredAt(ctx,g_canvas.width/2 - 30, 50)
    		}
 
 	},

@@ -23,12 +23,12 @@ PowerUp.prototype.type =
 {
 
 	FREEZE : {
-		color: "#0000FF",
+		color: "FREEZE",
 		activate: function() {
 			powerUpEffectManager.activateFreeze(PowerUp.prototype.ttl);
 		}},
 	DOUBLE : {
-		color: "#0000",
+		color: "DOUBLE",
 		activate: function() {
 			powerUpEffectManager.activateDouble(PowerUp.prototype.ttl);
 
@@ -50,10 +50,6 @@ PowerUp.prototype.update = function(du)
 	//PowerUps remain on the ground
 	if(this.cy + this.height/2 >= g_canvas.height)
 		this.cy = g_canvas.height - this.height/2;
-
-
-
-
 }
 
 PowerUp.prototype.getBoundingBox = function()
@@ -63,12 +59,16 @@ PowerUp.prototype.getBoundingBox = function()
 PowerUp.prototype.render = function(ctx)
 {
 
-	ctx.save();
-	ctx.fillStyle = this.type.color;
 	var rect = this.getBoundingBox();
-	ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
+	if(this.type.color == "FREEZE"){
+		g_sprites.powerFalki.drawCentredAt(ctx,rect.x,rect.y,0);
 
-	ctx.restore();
+	}
+	else if(this.type.color == "DOUBLE"){
+		g_sprites.powerPopo.drawCentredAt(ctx,rect.x,rect.y,0);
+	}
+
+
 }
 
 

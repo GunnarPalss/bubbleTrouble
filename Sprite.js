@@ -26,8 +26,8 @@ function Sprite(image) {
 }
 
 Sprite.prototype.drawAt = function (ctx, x, y) {
-    this.x = cx;
-    this.y = cy;
+    this.x = x;
+    this.y = y;
     
     ctx.drawImage(this.image, 
                   x, y);
@@ -54,6 +54,30 @@ Sprite.prototype.drawCentredAt = function (ctx, cx, cy, rotation) {
     
     ctx.restore();
 };  
+
+Sprite.prototype.drawPartCentredAt = function (ctx, cx, cy, percentage) {
+    
+    ctx.drawImage(this.image, cx, cy, 50, 50);
+/*
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(cx, cy, 25, Math.PI * 2 * percentage, 0, false);
+    
+    ctx.fill();
+    ctx.closePath();
+    ctx.clip();
+
+    
+
+    ctx.beginPath();
+    ctx.arc(25, 25, 25, Math.PI * 2 * percentage, 0, false);
+    ctx.clip();
+    ctx.closePath();
+
+    ctx.restore();
+*/
+};  
+
 
 
 Sprite.prototype.drawWrappedCentredAt = function (ctx, cx, cy, rotation) {
