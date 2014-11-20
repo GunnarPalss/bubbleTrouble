@@ -44,7 +44,7 @@ function PowerUp(descr)
 	spatialManager.register(this);
 }
 
-
+PowerUp.prototype.ttl = 10000 / NOMINAL_UPDATE_INTERVAL;
 PowerUp.prototype = new Entity();
 
 PowerUp.prototype.update = function(du)

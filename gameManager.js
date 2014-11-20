@@ -5,9 +5,11 @@ var gameManager = {
 	startScreen : 0,
 	gameScreen : 1,
 	controlScreen: 2,
-
+	maxLevel : 5,
 	level : 1,
 	twoPlayer: false,
+	gameLost: false,
+	gameWon: false,
 
 	position: 0,
 
@@ -208,6 +210,14 @@ var gameManager = {
 	    {
 	    	eatKey(entityManager._players[1].KEY_FIRE);
 	    }
+
+	    if(this.gameWon)
+	    	console.log("GameWon");
+	    	//TODO SÖLVI change position?
+
+	    if(this.gameLost)
+	    	console.log("gamelost");
+	    	//TODO SÖLVI change position?
 	},
 
 
@@ -232,7 +242,8 @@ var gameManager = {
 
 		this.level = 1;
 		this.twoPlayer = false;
-
+		this.gameLost = false;
+		this.gameWon = false;
 		entityManager.reset();
 		powerUpEffectManager.reset();
 

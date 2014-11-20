@@ -16,12 +16,6 @@ with suitable 'data' and 'methods'.
 "use strict";
 
 
-// Tell jslint not to complain about my use of underscore prefixes (nomen),
-// my flattening of some indentation (white), or my use of incr/decr ops
-// (plusplus).
-//
-/*jslint nomen: true, white: true, plusplus: true*/
-
 
 var entityManager = {
 
@@ -37,41 +31,6 @@ _bShowBubbles : true,
 
 // "PRIVATE" METHODS
 
-
-_generateBubbles : function(number) {
-
-    var NUM_BUBBLES = number;
-
-    for (var i = 0; i < NUM_BUBBLES; ++i) {
-        this.generateBubble();
-    }
-},
-
-_findNearestplayer : function(posX, posY) {
-    var closestplayer = null,
-        closestIndex = -1,
-        closestSq = 1000 * 1000;
-
-    for (var i = 0; i < this._players.length; ++i) {
-
-        var thisplayer = this._players[i];
-        var playerPos = thisplayer.getPos();
-        var distSq = util.wrappedDistSq(
-            playerPos.posX, playerPos.posY,
-            posX, posY,
-            g_canvas.width, g_canvas.height);
-
-        if (distSq < closestSq) {
-            closestplayer = thisplayer;
-            closestIndex = i;
-            closestSq = distSq;
-        }
-    }
-    return {
-        theplayer : closestplayer,
-        theIndex: closestIndex
-    };
-},
 
 _forEachOf: function(aCategory, fn) {
     for (var i = 0; i < aCategory.length; ++i) {
@@ -93,11 +52,14 @@ deferredSetup : function () {
     this._categories = [this._bubbles, this._WiresPlayerOne, this._WiresPlayerTwo, this._players, this._powerUps];
 },
 
+//initialize entities (level 1)
 init: function() {
+
     this.generateBubble({
 		cx: g_canvas.width/2,
 		cy: g_canvas.height*0.1
 	});
+
     this.generatePlayer({
         cx : 200,
         cy : 200,
@@ -162,6 +124,19 @@ generateBubble : function(descr) {
    this._bubbles.push(new Bubble(descr));
 },
 
+generateBubbles : function(number) {
+
+    var NUM_BUBBLES = number;
+
+    for (var i = 0; i < NUM_BUBBLES; ++i) {
+        this.generateBubble();
+    }
+},
+
+hasBubbles : function() {
+	return this._bubbles.length === 0;
+},
+
 generatePowerUp : function(descr)
 {
 	this._powerUps.push(new PowerUp(descr));
@@ -222,7 +197,7 @@ update: function(du) {
 
     if (this._bubbles.length === 0)
     {
-    		this._generateBubbles(++gameManager.level);
+    		this.generateBubbles(++gameManager.level);
     }
 
 },
@@ -249,6 +224,29 @@ render: function(ctx) {
     }
 },
 
+resetLevel: function() {
+
+		//reset powerup effects
+		powerUpEffectManager.reset();
+
+		//kill all powerups
+		for(var i = 0; i < entityManager._powerUps.length; i++)
+		{
+			entityManager._powerUps[i].kill();
+		}
+
+		//kill all bubbles
+		for(var i = 0; i < entityManager._bubbles.length; i++)
+		{
+			entityManager._bubbles[i].kill();
+		}
+
+		//regenerate level
+		entityManager.generateBubbles(gameManager.level);
+},
+
+
+//Reset all entities
 reset: function() {
 
 	this._bubbles  = [];

@@ -33,6 +33,10 @@ Rectangle.prototype.collidesWithCircle = function(cx, cy, radius)
     return (dx*dx+dy*dy<=(radius*radius));
 }
 
+/*
+	Returns true if rectangle collides with a given rectangle
+	otherwise false
+*/
 Rectangle.prototype.collidesWithRect = function(rect)
 {
 	  return !(rect.x > this.x+this.width ||

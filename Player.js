@@ -123,26 +123,34 @@ player.prototype.getBoundingBox = function() {
 player.prototype.handleCollision = function () {
 	var entity = spatialManager.findEntityInRange(this, this.getBoundingBox());
 
+	//Player hits a powerUp
 	if(entity && entity instanceof PowerUp)
 	{
 		entity.type.activate();
 		entity.kill();
 	}
+
+	//Player hits a bubble
 	else if (entity && entity instanceof Bubble)
 	{
+		//Has player lost the game?
 		this.lives--;
-		entity.kill();
-		for(var i = 0; i < entityManager._powerUps.length; i++)
+		if(this.lives < 0)
+			gameManager.gameLost = true;
+
+
+		//done with level
+		if(!entityManager.hasBubbles())
 		{
-			entityManager._powerUps[i].kill();
+			gameManager.level++; //update
+
+			if(gameManager.level > gameManager.maxLevel)
+				gameManager.gameWon = true;
+			entityManager.resetLevel(); //cleanup and setup new level
+
 		}
 
-		for(var i = 0; i < entityManager._bubbles.length; i++)
-		{
-			entityManager._bubbles[i].kill();
-		}
-
-		entityManager._generateBubbles(gameManager.level);
+		entityManager.resetLevel();
 	}
 
 
@@ -150,8 +158,8 @@ player.prototype.handleCollision = function () {
 
 
 player.prototype.render = function (ctx) {
-	var origScale = this.sprite.scale;
 
+	var origScale = this.sprite.scale;
 	this.sprite.scale = this._scale;
 	this.sprite.drawSpriteIndex(ctx, this.frameIndex, this.cx, this.cy);
 
