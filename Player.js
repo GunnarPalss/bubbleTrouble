@@ -126,7 +126,7 @@ player.prototype.handleCollision = function () {
 	//Player hits a powerUp
 	if(entity && entity instanceof PowerUp)
 	{
-		powerUpTypes[entity.id].activate(entity.ttl);
+		powerUpTypes[entity.id].activate();
 		entity.kill();
 	}
 

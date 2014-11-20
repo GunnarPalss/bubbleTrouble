@@ -191,12 +191,10 @@ var gameManager = {
    		}
 
    		if(powerUpEffectManager.freeze.active){
-   			console.log(powerUpEffectManager.double.ttl)
    			g_sprites.barFalki.drawPartCentredAt(ctx,g_canvas.width/2 + 30, 40,powerUpEffectManager.freeze.ttl/(10000 / NOMINAL_UPDATE_INTERVAL))
    		}
 
    		if(powerUpEffectManager.double.active){
-   			console.log(powerUpEffectManager.double.ttl)
    			g_sprites.barPopo.drawPartCentredAt(ctx,g_canvas.width/2 - 30, 40,powerUpEffectManager.double.ttl/(10000 / NOMINAL_UPDATE_INTERVAL))
    		}
 
