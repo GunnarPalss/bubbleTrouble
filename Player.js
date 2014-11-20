@@ -125,7 +125,7 @@ player.prototype.handleCollision = function () {
 
 	if(entity && entity instanceof PowerUp)
 	{
-		entity.type.activate();
+		powerUpTypes[entity.id].activate(entity.ttl);
 		entity.kill();
 	}
 	else if (entity && entity instanceof Bubble)
