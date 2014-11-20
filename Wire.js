@@ -13,7 +13,9 @@ function Wire(descr) {
 	this.setup(descr);
 
 	// Make a noise when I am created (i.e. fired)
-	this.fireSound.play();
+	if (!gameManager.mute) {
+		this.fireSound.play();
+	}
 
 
 
@@ -24,8 +26,6 @@ Wire.prototype = new Entity();
 // HACKED-IN AUDIO (no preloading)
 Wire.prototype.fireSound = new Audio(
 	"sounds/Grapple.wav");
-Wire.prototype.zappedSound = new Audio(
-	"sounds/bulletZapped.ogg");
 
 // Initial, inheritable, default values
 Wire.prototype.cx = 200;
