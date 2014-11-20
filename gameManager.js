@@ -5,6 +5,8 @@ var gameManager = {
 	startScreen : 0,
 	gameScreen : 1,
 	controlScreen: 2,
+	lostScreen: 3,
+	wonScreen: 4,
 	maxLevel : 5,
 	level : 1,
 	twoPlayer: false,
@@ -17,7 +19,14 @@ var gameManager = {
 
 
 	renderScreen: function(ctx){
-		if(this.position === this.startScreen){
+		console.log(this.position);
+		if(this.position == this.lostScreen){
+			this._renderGameLostScreen(ctx);
+		}
+		else if(this.position == this.wonScreen){
+			this._renderGameWonScreen(ctx);
+		}
+		else if(this.position === this.startScreen){
 			this._renderStartScreen(ctx);
 		}
 		else if(this.position === this.gameScreen){
@@ -30,7 +39,13 @@ var gameManager = {
 	},
 
 	updateScreen: function(du){
-		if(this.position === this.startScreen){
+		if(this.position == this.lostScreen){
+			this._updateGameLostScreen(ctx);
+		}
+		else if(this.position == this.wonScreen){
+			this._updateGameWonScreen(ctx);
+		}
+		else if(this.position === this.startScreen){
 			this._updateStartScreen(du);
 		}
 		else if(this.position === this.gameScreen){
@@ -118,7 +133,7 @@ var gameManager = {
 			g_sprites.oneplayer.image = g_images.oneplayer_active;
 			this.twoPlayer = false;
 			if(g_mouseButton) {
-				this.position = 1;
+				this.position = this.gameScreen;
 				document.getElementById("intro").pause();
 				document.getElementById("intro").currentTime = 0;
 				entityManager.init();
@@ -129,7 +144,7 @@ var gameManager = {
 			g_sprites.twoplayer.image = g_images.twoplayer_active;
 			this.twoPlayer = true;
 			if(g_mouseButton) {
-				this.position = 1;
+				this.position = this.gameScreen;
 				document.getElementById("intro").pause();
 				document.getElementById("intro").currentTime = 0;
 				entityManager.init();
@@ -138,7 +153,7 @@ var gameManager = {
 		}
 		else if(this._isMouseOver(g_sprites.controls)){
 			g_sprites.controls.image = g_images.controls_active;
-			if(g_mouseButton) this.position = 2;
+			if(g_mouseButton) this.position = this.controlScreen;
 		}
 
 
@@ -212,13 +227,17 @@ var gameManager = {
 	    	eatKey(entityManager._players[1].KEY_FIRE);
 	    }
 
-	    if(this.gameWon)
+	    if(this.gameWon){
 	    	console.log("GameWon");
-	    	//TODO SÖLVI change position?
+	    	this.position = this.wonScreen;	
+	    }
+	    	
 
-	    if(this.gameLost)
+	    if(this.gameLost){
 	    	console.log("gamelost");
-	    	//TODO SÖLVI change position?
+	    	this.position = this.lostScreen;	
+	    }
+	    	
 	},
 
 
@@ -236,16 +255,61 @@ var gameManager = {
 	},
 
 	_updateControlScreen: function(du){
+		
+	},
+
+	_renderGameLostScreen: function(du){
+		g_sprites.gameLost.drawCentredAt(ctx,g_canvas.width/2,g_canvas.height/2,0);
+		g_sprites.playAgain.drawCentredAt(ctx,g_canvas.width/2-100,450,0);
+		g_sprites.menu.drawCentredAt(ctx,g_canvas.width/2+100,450,0);
+
+		g_sprites.playAgain.image = g_images.playAgain;
+		g_sprites.menu.image = g_images.menu;
+
+		if(this._isMouseOver(g_sprites.playAgain)){
+			g_sprites.playAgain.image = g_images.playAgain_active;
+			if(g_mouseButton){
+				console.log('play again');
+				this.reset();
+				console.log(this.position);
+				this.position = this.gameScreen;
+				console.log(this.position);	
+			} 
+		}
+
+		if(this._isMouseOver(g_sprites.menu)){
+			g_sprites.menu.image = g_images.menu_active;
+			if(g_mouseButton){
+				console.log('click');
+				this.reset();
+				console.log(this.position)
+				this.position = this.startScreen;
+				console.log(this.position)	
+
+			} 
+		}
+
+
+	},
+
+	_updateGameLostScreen: function(du){
+
+	},
+
+	_renderGameWonScreen: function(du){
+
+	},
+
+	_updateGameWonScreen: function(du){
 
 	},
 
 	reset: function(du){
-
 		this.level = 1;
 		this.twoPlayer = false;
 		this.gameLost = false;
 		this.gameWon = false;
-		entityManager.reset();
+		entityManager.resetLevel();
 		powerUpEffectManager.reset();
 
 	},

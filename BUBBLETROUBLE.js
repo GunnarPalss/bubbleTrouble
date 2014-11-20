@@ -113,6 +113,14 @@ function requestPreloads() {
         powerPopo           : "img/powerPopo.png",
         barFalki            : "img/barFalki.png",
         barPopo             : "img/barPopo.png",
+
+        gameLost            : "img/lost.png",
+        gameWon             : "img/won.png",
+
+        playAgain           : "img/playagain.png",
+        menu                : "img/menu.png",
+        playAgain_active    : "img/playagain_active.png",
+        menu_active         : "img/menu_active.png",
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -141,6 +149,12 @@ function preloadDone() {
 
     g_sprites.barFalki = new Sprite(g_images.barFalki);
     g_sprites.barPopo = new Sprite(g_images.barPopo);
+
+    g_sprites.gameLost = new Sprite(g_images.gameLost);
+    g_sprites.gameWon = new Sprite(g_images.gameWon);
+    g_sprites.playAgain = new Sprite(g_images.playAgain);
+    g_sprites.menu = new Sprite(g_images.menu);
+
 
     //Menu
     g_sprites.lekatrouble  = new Sprite(g_images.lekatrouble);
