@@ -81,7 +81,9 @@ var gameManager = {
 
 		g_sprites.menuBg.drawCentredAt(ctx,g_canvas.width/2,g_canvas.height/2,0);
 
-		document.getElementById("intro").play();
+		if(!gameManager.mute){
+			document.getElementById("intro").play();
+		}
 
 		g_sprites.memo.drawCentredAt(ctx,g_canvas.width/2,this.memoY,this.memoR);
 		if(this.displayTitle) g_sprites.lekatrouble.drawCentredAt(g_ctx,g_canvas.width/2,150,0);
@@ -101,7 +103,9 @@ var gameManager = {
 			if(this.memoY < this.finalMemoY){
 				this.memoY += 1.5;
 				this.memoR += 0.003;
-				document.getElementById("logo").play();
+				if(!gameManager.mute){
+					document.getElementById("logo").play();
+				}
 			}
 			else this.displayTitle = true;
 
@@ -135,8 +139,10 @@ var gameManager = {
 			this.twoPlayer = false;
 			if(g_mouseButton) {
 				this.position = this.gameScreen;
-				document.getElementById("intro").pause();
-				document.getElementById("intro").currentTime = 0;
+				if(!gameManager.mute){
+					document.getElementById("intro").pause();
+					document.getElementById("intro").currentTime = 0;
+				}
 				entityManager.init();
 				powerUpEffectManager.init();
 			}
@@ -146,8 +152,10 @@ var gameManager = {
 			this.twoPlayer = true;
 			if(g_mouseButton) {
 				this.position = this.gameScreen;
-				document.getElementById("intro").pause();
-				document.getElementById("intro").currentTime = 0;
+				if(!gameManager.mute){
+					document.getElementById("intro").pause();
+					document.getElementById("intro").currentTime = 0;
+				}
 				entityManager.init();
 				powerUpEffectManager.init();
 			}
