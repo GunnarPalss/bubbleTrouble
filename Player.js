@@ -137,8 +137,20 @@ player.prototype.handleCollision = function () {
 	//Player hits a bubble
 	else if (entity && entity instanceof Bubble)
 	{
-		//Has player lost the game?
+		
+		var currentQuote = this.lives;
+		if (this.lives != 0){
+			if(this.playerIndex === 1) {
+				document.getElementById(currentQuote+3).play();
+			}
+			else document.getElementById(currentQuote).play();
+		}
+
+
+
 		this.lives--;
+		
+		//Has player lost the game?
 		if(this.lives < 0)
 			gameManager.gameLost = true;
 
