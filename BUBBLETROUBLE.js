@@ -56,7 +56,21 @@ function processDiagnostics() {
 
     if(eatKey(KEY_MUTE)) gameManager.mute != gameManager.mute;
 
+    if(eatKey(KEY_ESC)){
 
+        gameManager.level = 1;
+        
+        entityManager.resetGame();
+        powerUpEffectManager.reset();
+        entityManager.init();
+
+        
+        gameManager.position = 0;
+
+        gameManager.gameLost = false;
+        gameManager.gameWon = false;
+        
+    }
 
 
 }

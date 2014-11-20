@@ -19,11 +19,11 @@ var gameManager = {
 	introAnimation: false,
 
 
-	renderScreen: function(ctx){
-		if(this.position == this.lostScreen){
+	renderScreen: function(ctx){		
+		if(this.position === this.lostScreen){
 			this._renderGameLostScreen(ctx);
 		}
-		else if(this.position == this.wonScreen){
+		else if(this.position === this.wonScreen){
 			this._renderGameWonScreen(ctx);
 		}
 		else if(this.position === this.startScreen){
@@ -39,12 +39,10 @@ var gameManager = {
 	},
 
 	updateScreen: function(du){
-
-
-		if(this.position == this.lostScreen){
+		if(this.position === this.lostScreen){
 			this._updateGameLostScreen(ctx);
 		}
-		else if(this.position == this.wonScreen){
+		else if(this.position === this.wonScreen){
 			this._updateGameWonScreen(ctx);
 		}
 		else if(this.position === this.startScreen){
@@ -79,6 +77,8 @@ var gameManager = {
 
 	_renderStartScreen :function(ctx){
 
+		
+
 		g_sprites.menuBg.drawCentredAt(ctx,g_canvas.width/2,g_canvas.height/2,0);
 
 		document.getElementById("intro").play();
@@ -92,7 +92,6 @@ var gameManager = {
 		g_sprites.oneplayer.drawCentredAt(ctx,g_canvas.width/2,this.menuY,0);
 		g_sprites.twoplayer.drawCentredAt(ctx,g_canvas.width/2,this.menuY+50,0);
 		g_sprites.controls.drawCentredAt(ctx,g_canvas.width/2,this.menuY+100,0);
-
 
 	},
 
