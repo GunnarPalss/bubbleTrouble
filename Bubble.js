@@ -95,7 +95,7 @@ Bubble.prototype.getBoundingBox = function () {
 
 
 Bubble.prototype.evaporateSound = new Audio(
-  "sounds/rockEvaporate.ogg");
+  "sounds/rip.wav");
 
 Bubble.prototype.takeWireHit = function () {
 
@@ -120,12 +120,18 @@ Bubble.prototype.takeWireHit = function () {
     if (this.scale > 0.25) {
         this._spawnFragment(this.velX, -5);
         this._spawnFragment(-this.velX,-5);
+        if (!gameManager.mute) {
+          this.evaporateSound.play();
+          this.evaporateSound.currentTime = 0;
+        }
       }
 
   // Bubbles of minimal size dont spawn other bubbles
     else {
+      if (!gameManager.mute) {
         this.evaporateSound.play();
         this.evaporateSound.currentTime = 0;
+      }
     }
 };
 
