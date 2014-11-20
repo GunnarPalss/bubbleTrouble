@@ -229,15 +229,15 @@ var gameManager = {
 
 	    if(this.gameWon){
 	    	console.log("GameWon");
-	    	this.position = this.wonScreen;	
+	    	this.position = this.wonScreen;
 	    }
-	    	
+
 
 	    if(this.gameLost){
 	    	console.log("gamelost");
-	    	this.position = this.lostScreen;	
+	    	this.position = this.lostScreen;
 	    }
-	    	
+
 	},
 
 
@@ -255,7 +255,7 @@ var gameManager = {
 	},
 
 	_updateControlScreen: function(du){
-		
+
 	},
 
 	_renderGameLostScreen: function(du){
@@ -271,10 +271,11 @@ var gameManager = {
 			if(g_mouseButton){
 				console.log('play again');
 				this.reset();
+				entityManager.init();
 				console.log(this.position);
 				this.position = this.gameScreen;
-				console.log(this.position);	
-			} 
+				console.log(this.position);
+			}
 		}
 
 		if(this._isMouseOver(g_sprites.menu)){
@@ -284,9 +285,9 @@ var gameManager = {
 				this.reset();
 				console.log(this.position)
 				this.position = this.startScreen;
-				console.log(this.position)	
+				console.log(this.position)
 
-			} 
+			}
 		}
 
 
@@ -306,10 +307,9 @@ var gameManager = {
 
 	reset: function(du){
 		this.level = 1;
-		this.twoPlayer = false;
 		this.gameLost = false;
 		this.gameWon = false;
-		entityManager.resetLevel();
+		entityManager.resetGame();
 		powerUpEffectManager.reset();
 
 	},
