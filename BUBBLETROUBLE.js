@@ -58,12 +58,12 @@ function processDiagnostics() {
 
     if(eatKey(KEY_ESC)){
 
-        gameManager.level = 1;
-        gameManager.gameLost = false;
-        gameManager.gameWon = false;
-        entityManager.resetGame();
-        powerUpEffectManager.reset();
-        entityManager.init();
+
+		gameManager.level = 1;
+		gameManager.gameLost = false;
+		gameManager.gameWon = false;
+		entityManager.resetGame();
+		powerUpEffectManager.reset();
 
         gameManager.position = gameManager.startScreen;
 

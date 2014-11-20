@@ -19,10 +19,10 @@ var gameManager = {
 	introAnimation: false,
 
 
-	renderScreen: function(ctx){	
+	renderScreen: function(ctx){
 
 
-	
+
 		if(this.position === this.lostScreen){
 			this._renderGameLostScreen(ctx);
 		}
@@ -130,7 +130,7 @@ var gameManager = {
 			this.menuY = this.finalMenuY;
 			this.displayTitle = true;
 		}
- 
+
 		g_sprites.oneplayer.image = g_images.oneplayer;
 		g_sprites.twoplayer.image = g_images.twoplayer;
 		g_sprites.controls.image = g_images.controls;
@@ -228,8 +228,10 @@ var gameManager = {
 	    powerUpEffectManager.update(du);
 
 	    // Prevent perpetual firing!
-	    eatKey(entityManager._players[0].KEY_FIRE);
-	    if(this.twoPlayer){
+
+	    if(entityManager._players[0])
+	    	eatKey(entityManager._players[0].KEY_FIRE);
+	    if(this.twoPlayer && entityManager._players[1]){
 	    	eatKey(entityManager._players[1].KEY_FIRE);
 	    }
 
@@ -292,7 +294,7 @@ var gameManager = {
 			if(g_mouseButton){
 				this.reset();
 				this.position = this.gameScreen;
-			} 
+			}
 		}
 
 		if(this._isMouseOver(g_sprites.menu)){
@@ -300,12 +302,12 @@ var gameManager = {
 			if(g_mouseButton){
 				this.reset();
 				this.position = this.startScreen;
-			} 
+			}
 		}
 	},
 
 	reset: function(du){
-		
+
 		this.level = 1;
 		this.gameLost = false;
 		this.gameWon = false;
