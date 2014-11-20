@@ -12,6 +12,7 @@ var gameManager = {
 	twoPlayer: false,
 	gameLost: false,
 	gameWon: false,
+	mute: false,
 
 	position: 0,
 
@@ -38,6 +39,8 @@ var gameManager = {
 	},
 
 	updateScreen: function(du){
+
+
 		if(this.position == this.lostScreen){
 			this._updateGameLostScreen(ctx);
 		}
@@ -221,8 +224,7 @@ var gameManager = {
 
 	    // Prevent perpetual firing!
 	    eatKey(entityManager._players[0].KEY_FIRE);
-	    if(this.twoPlayer)
-	    {
+	    if(this.twoPlayer){
 	    	eatKey(entityManager._players[1].KEY_FIRE);
 	    }
 
@@ -258,7 +260,6 @@ var gameManager = {
 	_renderGameLostScreen: function(du){
 		g_sprites.gameLost.drawCentredAt(ctx,g_canvas.width/2,g_canvas.height/2,0);
 		this._lostWonScreenMenu();
-
 	},
 
 	_updateGameLostScreen: function(du){
@@ -299,12 +300,13 @@ var gameManager = {
 	},
 
 	reset: function(du){
-		entityManager.init();
+		
 		this.level = 1;
 		this.gameLost = false;
 		this.gameWon = false;
 		entityManager.resetGame();
 		powerUpEffectManager.reset();
+		entityManager.init();
 
 	},
 }

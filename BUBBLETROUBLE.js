@@ -42,6 +42,8 @@ var g_renderSpatialDebug = false;
 
 var KEY_SPATIAL = keyCode('X');
 var KEY_RESET = keyCode('R');
+var KEY_MUTE = keyCode('M');
+var KEY_ESC = 27;
 
 
 
@@ -51,6 +53,10 @@ function processDiagnostics() {
     if (eatKey(KEY_SPATIAL)) g_renderSpatialDebug = !g_renderSpatialDebug;
 
     if (eatKey(KEY_RESET)) entityManager.resetLevel();
+
+    if(eatKey(KEY_MUTE)) gameManager.mute != gameManager.mute;
+
+
 
 
 }
