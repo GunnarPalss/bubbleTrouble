@@ -122,15 +122,10 @@ Bubble.prototype.takeWireHit = function () {
     if (this.scale > 0.25) {
         this._spawnFragment(this.velX, -5);
         this._spawnFragment(-this.velX,-5);
-
-        var randomQuote = Math.floor(Math.random()*(6-1)+1);
-        if (this.scale >=0.75){
-        document.getElementById(randomQuote).play();
-        document.getElementById(randomQuote).currentTime = 0;
-      };
+      }
 
   // Bubbles of minimal size dont spawn other bubbles
-    } else {
+    else {
         this.evaporateSound.play();
         this.evaporateSound.currentTime = 0;
     }

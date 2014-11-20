@@ -223,8 +223,8 @@ var gameManager = {
 
 	_renderControlScreen :function(ctx){
 		g_sprites.menuBg.drawCentredAt(ctx,g_canvas.width/2,g_canvas.height/2,0);
-		g_sprites.controlScreen.drawCentredAt(ctx,g_canvas.width/2,g_canvas.height/2.5,0);
-		g_sprites.back.drawCentredAt(ctx,g_canvas.width/2,this.menuY+150,0);
+		g_sprites.controlScreen.drawCentredAt(ctx,g_canvas.width/2,g_canvas.height/2);
+		g_sprites.back.drawCentredAt(ctx,g_canvas.width-125,this.menuY-335);
 
 		g_sprites.back.image = g_images.back;
 		if(this._isMouseOver(g_sprites.back)){
