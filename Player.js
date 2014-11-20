@@ -54,12 +54,14 @@ player.prototype.update = function (du) {
 	if(this._isDeadNow)
 		return entityManager.KILL_ME_NOW
 
-
+	//Handle fire animation
 	if(keys[this.KEY_FIRE]){
 		this.frameIndex = 2;
 		this.leftStepCount = 0;
 		this.rightStepCount = 0;
 	}
+
+	//Handle left animation
 	else if(keys[this.KEY_LEFT] && this.cx > this.sprite.width/this.sprite.count/2){
 		this.cx -= 2;
 
@@ -76,6 +78,8 @@ player.prototype.update = function (du) {
 		}
 		else this.leftStepCount++;
 	}
+
+	//Handle right animation
 	else if(keys[this.KEY_RIGHT] && this.cx < g_canvas.width-this.sprite.width/this.sprite.count/2){
 		this.cx += 2;
 
@@ -140,8 +144,6 @@ player.prototype.handleCollision = function () {
 
 
 		entityManager.resetLevel(); //cleanup and setup new level
-
-
 
 	}
 

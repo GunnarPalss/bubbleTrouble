@@ -85,7 +85,6 @@ Wire.prototype.collidesWithBall = function () {
 	if(entity)
 	{
 		entity.takeWireHit();
-		spatialManager.unregister(entity);
 		return true
 	}
 	else
