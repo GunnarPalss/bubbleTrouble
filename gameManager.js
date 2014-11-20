@@ -19,7 +19,6 @@ var gameManager = {
 
 
 	renderScreen: function(ctx){
-		console.log(this.position);
 		if(this.position == this.lostScreen){
 			this._renderGameLostScreen(ctx);
 		}
@@ -232,7 +231,6 @@ var gameManager = {
 	    	this.position = this.wonScreen;	
 	    }
 	    	
-
 	    if(this.gameLost){
 	    	console.log("gamelost");
 	    	this.position = this.lostScreen;	
@@ -260,6 +258,24 @@ var gameManager = {
 
 	_renderGameLostScreen: function(du){
 		g_sprites.gameLost.drawCentredAt(ctx,g_canvas.width/2,g_canvas.height/2,0);
+		this._lostWonScreenMenu();
+
+	},
+
+	_updateGameLostScreen: function(du){
+
+	},
+
+	_renderGameWonScreen: function(du){
+		g_sprites.gameWon.drawCentredAt(ctx,g_canvas.width/2,g_canvas.height/2,0);
+		this._lostWonScreenMenu();
+	},
+
+	_updateGameWonScreen: function(du){
+
+	},
+
+	_lostWonScreenMenu: function(){
 		g_sprites.playAgain.drawCentredAt(ctx,g_canvas.width/2-100,450,0);
 		g_sprites.menu.drawCentredAt(ctx,g_canvas.width/2+100,450,0);
 
@@ -269,39 +285,19 @@ var gameManager = {
 		if(this._isMouseOver(g_sprites.playAgain)){
 			g_sprites.playAgain.image = g_images.playAgain_active;
 			if(g_mouseButton){
-				console.log('play again');
 				this.reset();
-				console.log(this.position);
 				this.position = this.gameScreen;
-				console.log(this.position);	
 			} 
 		}
 
 		if(this._isMouseOver(g_sprites.menu)){
 			g_sprites.menu.image = g_images.menu_active;
 			if(g_mouseButton){
-				console.log('click');
 				this.reset();
-				console.log(this.position)
 				this.position = this.startScreen;
-				console.log(this.position)	
-
 			} 
 		}
-
-
-	},
-
-	_updateGameLostScreen: function(du){
-
-	},
-
-	_renderGameWonScreen: function(du){
-
-	},
-
-	_updateGameWonScreen: function(du){
-
+	
 	},
 
 	reset: function(du){
