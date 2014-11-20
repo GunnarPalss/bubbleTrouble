@@ -140,10 +140,14 @@ player.prototype.handleCollision = function () {
 
 		var currentQuote = this.lives;
 		if (this.lives != 0){
-			if(this.playerIndex === 1) {
-				document.getElementById(currentQuote+3).play();
+
+			if(!gameManager.mute){
+
+				if(this.playerIndex === 1) {
+					document.getElementById(currentQuote+3).play();
+				}
+				else document.getElementById(currentQuote).play();
 			}
-			else document.getElementById(currentQuote).play();
 		}
 
 
