@@ -139,7 +139,7 @@ player.prototype.handleCollision = function () {
 			if(this.playerIndex === 1) {
 				document.getElementById(currentQuote+3).play();
 			}
-			document.getElementById(currentQuote).play();
+			else document.getElementById(currentQuote).play();
 		}
 
 
