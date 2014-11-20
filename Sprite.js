@@ -57,25 +57,15 @@ Sprite.prototype.drawCentredAt = function (ctx, cx, cy, rotation) {
 
 Sprite.prototype.drawPartCentredAt = function (ctx, cx, cy, percentage) {
     
-    ctx.drawImage(this.image, cx, cy, 50, 50);
-/*
     ctx.save();
     ctx.beginPath();
-    ctx.arc(cx, cy, 25, Math.PI * 2 * percentage, 0, false);
-    
-    ctx.fill();
+    ctx.moveTo(cx,cy);
+    ctx.arc(cx,cy,25, -Math.PI/2, -Math.PI * 2 * percentage - Math.PI/2 ,true);
     ctx.closePath();
     ctx.clip();
-
-    
-
-    ctx.beginPath();
-    ctx.arc(25, 25, 25, Math.PI * 2 * percentage, 0, false);
-    ctx.clip();
-    ctx.closePath();
-
+    ctx.drawImage(this.image, cx-25, cy-25, 50, 50);
     ctx.restore();
-*/
+
 };  
 
 
