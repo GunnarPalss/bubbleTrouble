@@ -37,35 +37,20 @@ function gatherInputs() {
 
 // GAME-SPECIFIC DIAGNOSTICS
 
-var g_allowMixedActions = true;
-var g_useGravity = false;
-var g_useAveVel = true;
+
 var g_renderSpatialDebug = false;
 
-var KEY_MIXED   = keyCode('M');;
-var KEY_GRAVITY = keyCode('G');
-var KEY_AVE_VEL = keyCode('V');
 var KEY_SPATIAL = keyCode('X');
-
-var KEY_HALT  = keyCode('H');
 var KEY_RESET = keyCode('R');
 
 
 
 function processDiagnostics() {
 
-    if (eatKey(KEY_MIXED))
-        g_allowMixedActions = !g_allowMixedActions;
-
-    if (eatKey(KEY_GRAVITY)) g_useGravity = !g_useGravity;
-
-    if (eatKey(KEY_AVE_VEL)) g_useAveVel = !g_useAveVel;
 
     if (eatKey(KEY_SPATIAL)) g_renderSpatialDebug = !g_renderSpatialDebug;
 
-    if (eatKey(KEY_HALT)) entityManager.haltplayers();
-
-    if (eatKey(KEY_RESET)) entityManager.resetplayers();
+    if (eatKey(KEY_RESET)) entityManager.resetLevel();
 
 
 }
@@ -136,6 +121,7 @@ function preloadDone() {
     g_sprites.playerOneLifeIcon = new Sprite(g_images.playerOneLifeIcon);
     g_sprites.playerTwoLifeIcon = new Sprite(g_images.playerTwoLifeIcon);
 
+    //Powerups
     g_sprites.freeze= new Sprite(g_images.powerFalki);
     g_sprites.double = new Sprite(g_images.powerPopo);
 

@@ -84,19 +84,6 @@ Wire.prototype.collidesWithBall = function () {
 	var entity = spatialManager.findEntityInRange(this, this.getBoundingBox());
 	if(entity)
 	{
-		//done with level
-		if(!entityManager.hasBubbles())
-		{
-			gameManager.level++; //update
-
-			if(gameManager.level > gameManager.maxLevel)
-			{
-				gameManager.gameWon = true;
-			}
-
-			entityManager.resetLevel(); //cleanup and setup new level
-		}
-
 		entity.takeWireHit();
 		spatialManager.unregister(entity);
 		return true

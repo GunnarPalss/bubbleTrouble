@@ -99,7 +99,7 @@ player.prototype.update = function (du) {
 
 
 	// Handle firing
-	this.maybeFireWire();
+	this.fireWire();
 
 
 	this.handleCollision();
@@ -107,9 +107,9 @@ player.prototype.update = function (du) {
 
 };
 
-player.prototype.maybeFireWire = function () {
+player.prototype.fireWire = function () {
 	if (keys[this.KEY_FIRE]) {
-		entityManager.fireWire(this.cx, this);
+		entityManager.maybeFireWire(this.cx, this);
 	}
 };
 
