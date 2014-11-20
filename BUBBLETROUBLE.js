@@ -54,7 +54,7 @@ function processDiagnostics() {
 
     if (eatKey(KEY_RESET)) entityManager.resetLevel();
 
-    if(eatKey(KEY_MUTE)) gameManager.mute != gameManager.mute;
+    if(eatKey(KEY_MUTE)) gameManager.mute = !gameManager.mute;
 
     if(eatKey(KEY_ESC)){
 
