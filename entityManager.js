@@ -234,14 +234,35 @@ resetLevel: function() {
 
 
 //Reset all entities
-reset: function() {
+resetGame: function() {
 
-	this._bubbles  = [];
-	this._WiresPlayerOne = [];
-	this._WiresPlayerTwo = [];
-	this._players   = [];
-	this._powerUps = [];
+		//reset powerup effects
+		powerUpEffectManager.reset();
+
+		//kill all powerups
+		for(var i = 0; i < this._powerUps.length; i++)
+		{
+			entityManager._powerUps[i].kill();
+		}
+
+		//kill all bubbles
+		for(var i = 0; i < this._bubbles.length; i++)
+		{
+			this._bubbles[i].kill();
+		}
+
+
+		for(var i = 0; i < this._players.length; i++)
+		{
+			this._players[i].kill();
+		}
+
+
+
+
 },
+
+
 
 
 }

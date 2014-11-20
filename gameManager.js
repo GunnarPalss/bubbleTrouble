@@ -228,14 +228,13 @@ var gameManager = {
 
 	    if(this.gameWon){
 	    	console.log("GameWon");
-	    	this.position = this.wonScreen;	
+	    	this.position = this.wonScreen;
 	    }
-	    	
 	    if(this.gameLost){
 	    	console.log("gamelost");
-	    	this.position = this.lostScreen;	
+	    	this.position = this.lostScreen;
 	    }
-	    	
+
 	},
 
 
@@ -253,7 +252,7 @@ var gameManager = {
 	},
 
 	_updateControlScreen: function(du){
-		
+
 	},
 
 	_renderGameLostScreen: function(du){
@@ -297,15 +296,14 @@ var gameManager = {
 				this.position = this.startScreen;
 			} 
 		}
-	
 	},
 
 	reset: function(du){
+		entityManager.init();
 		this.level = 1;
-		this.twoPlayer = false;
 		this.gameLost = false;
 		this.gameWon = false;
-		entityManager.resetLevel();
+		entityManager.resetGame();
 		powerUpEffectManager.reset();
 
 	},
