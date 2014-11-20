@@ -109,11 +109,11 @@ Bubble.prototype.takeWireHit = function () {
 
     //20% probability of freeze
     if (rnd < 0.2)
-    	entityManager.generatePowerUp({ cx: this.cx, cy: this.cy, type: PowerUp.prototype.type.FREEZE});
+    	entityManager.generatePowerUp({ cx: this.cx, cy: this.cy, type: powerUpTypes.freeze});
 
     //20% probability of double
     else if(rnd < 0.4)
-    	entityManager.generatePowerUp({ cx: this.cx, cy: this.cy, type: PowerUp.prototype.type.DOUBLE});
+    	entityManager.generatePowerUp({ cx: this.cx, cy: this.cy, type: powerUpTypes.double});
 
 
   // Dead bubbles spawn two smaller bubbles
