@@ -133,6 +133,7 @@ var gameManager = {
 				document.getElementById("intro").pause();
 				document.getElementById("intro").currentTime = 0;
 				entityManager.init();
+				powerUpEffectManager.init();
 			}
 		}
 		else if(this._isMouseOver(g_sprites.controls)){
