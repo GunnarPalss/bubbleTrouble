@@ -27,8 +27,6 @@ _WiresPlayerTwo: [],
 _players   : [],
 _powerUps : [],
 
-_bShowBubbles : true,
-
 // "PRIVATE" METHODS
 
 
@@ -55,23 +53,29 @@ deferredSetup : function () {
 //initialize entities (level 1)
 init: function() {
 
+
+	//Initial bubble
     this.generateBubble({
 		cx: g_canvas.width/2,
 		cy: g_canvas.height*0.1
 	});
 
+    //Player 1
     this.generatePlayer({
         cx : 200,
         cy : 200,
         lives : 3,
         playerIndex: 0,
         sprite: g_sprites.player,
+        // key config
         KEY_LEFT: 'A'.charCodeAt(0),
 		KEY_RIGHT: 'D'.charCodeAt(0),
 		KEY_FIRE: ' '.charCodeAt(0)
 
     });
 
+
+    //Player 2
     if(gameManager.twoPlayer) {
     	this.generatePlayer({
     		cx: 400,
@@ -79,6 +83,7 @@ init: function() {
     		lives: 3,
     		playerIndex: 1,
     		sprite: g_sprites.player2,
+    		//key config
     		KEY_LEFT: 37,
 			KEY_RIGHT: 39,
 			KEY_FIRE: 38
@@ -87,15 +92,16 @@ init: function() {
 	}
 },
 
-fireWire: function(cx , player) {
+maybeFireWire: function(cx , player) {
 
-
+	// who is shootin
 	if(player.playerIndex === 0)
 		var wires = this._WiresPlayerOne;
 	else
 		var wires = this._WiresPlayerTwo;
 
 
+	//Check for double powerUp
 	var minWireNumber = 0;
 	if (powerUpEffectManager.double.active)
 		minWireNumber = 1;
@@ -147,31 +153,6 @@ generatePlayer : function(descr) {
 },
 
 
-killNearestplayer : function(xPos, yPos) {
-    var theplayer = this._findNearestplayer(xPos, yPos).theplayer;
-    if (theplayer) {
-        theplayer.kill();
-    }
-},
-
-yoinkNearestplayer : function(xPos, yPos) {
-    var theplayer = this._findNearestplayer(xPos, yPos).theplayer;
-    if (theplayer) {
-        theplayer.setPos(xPos, yPos);
-    }
-},
-
-resetplayers: function() {
-    this._forEachOf(this._players, player.prototype.reset);
-},
-
-haltplayers: function() {
-    this._forEachOf(this._players, player.prototype.halt);
-},
-
-toggleBubbles: function() {
-    this._bShowBubbles = !this._bShowBubbles;
-},
 
 update: function(du) {
 
@@ -195,10 +176,19 @@ update: function(du) {
         }
     }
 
-    if (this._bubbles.length === 0)
-    {
-    		this.generateBubbles(++gameManager.level);
-    }
+	//done with level
+	if(!entityManager.hasBubbles())
+	{
+		gameManager.level++; //update
+
+		if(gameManager.level > gameManager.maxLevel)
+		{
+			gameManager.gameWon = true;
+		}
+
+		entityManager.resetLevel(); //cleanup and setup new level
+	}
+
 
 },
 
@@ -210,9 +200,6 @@ render: function(ctx) {
 
         var aCategory = this._categories[c];
 
-        if (!this._bShowBubbles &&
-            aCategory == this._bubbles)
-            continue;
 
         for (var i = 0; i < aCategory.length; ++i) {
 
@@ -230,19 +217,19 @@ resetLevel: function() {
 		powerUpEffectManager.reset();
 
 		//kill all powerups
-		for(var i = 0; i < entityManager._powerUps.length; i++)
+		for(var i = 0; i < this._powerUps.length; i++)
 		{
 			entityManager._powerUps[i].kill();
 		}
 
 		//kill all bubbles
-		for(var i = 0; i < entityManager._bubbles.length; i++)
+		for(var i = 0; i < this._bubbles.length; i++)
 		{
-			entityManager._bubbles[i].kill();
+			this._bubbles[i].kill();
 		}
 
 		//regenerate level
-		entityManager.generateBubbles(gameManager.level);
+		this.generateBubbles(gameManager.level);
 },
 
 

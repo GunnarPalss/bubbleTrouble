@@ -54,12 +54,14 @@ player.prototype.update = function (du) {
 	if(this._isDeadNow)
 		return entityManager.KILL_ME_NOW
 
-
+	//Handle fire animation
 	if(keys[this.KEY_FIRE]){
 		this.frameIndex = 2;
 		this.leftStepCount = 0;
 		this.rightStepCount = 0;
 	}
+
+	//Handle left animation
 	else if(keys[this.KEY_LEFT] && this.cx > this.sprite.width/this.sprite.count/2){
 		this.cx -= 2;
 
@@ -76,6 +78,8 @@ player.prototype.update = function (du) {
 		}
 		else this.leftStepCount++;
 	}
+
+	//Handle right animation
 	else if(keys[this.KEY_RIGHT] && this.cx < g_canvas.width-this.sprite.width/this.sprite.count/2){
 		this.cx += 2;
 
@@ -99,7 +103,7 @@ player.prototype.update = function (du) {
 
 
 	// Handle firing
-	this.maybeFireWire();
+	this.fireWire();
 
 
 	this.handleCollision();
@@ -107,9 +111,9 @@ player.prototype.update = function (du) {
 
 };
 
-player.prototype.maybeFireWire = function () {
+player.prototype.fireWire = function () {
 	if (keys[this.KEY_FIRE]) {
-		entityManager.fireWire(this.cx, this);
+		entityManager.maybeFireWire(this.cx, this);
 	}
 };
 
@@ -133,15 +137,25 @@ player.prototype.handleCollision = function () {
 	//Player hits a bubble
 	else if (entity && entity instanceof Bubble)
 	{
-		//Has player lost the game?
+		
+		var currentQuote = this.lives;
+		if (this.lives != 0){
+			if(this.playerIndex === 1) {
+				document.getElementById(currentQuote+3).play();
+			}
+			else document.getElementById(currentQuote).play();
+		}
+
+
+
 		this.lives--;
+		
+		//Has player lost the game?
 		if(this.lives < 0)
 			gameManager.gameLost = true;
 
 
 		entityManager.resetLevel(); //cleanup and setup new level
-
-
 
 	}
 

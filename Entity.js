@@ -56,6 +56,7 @@ Entity.prototype.getSpatialID = function () {
 };
 
 Entity.prototype.kill = function () {
+	spatialManager.unregister(this);
     this._isDeadNow = true;
 };
 
