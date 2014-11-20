@@ -19,7 +19,10 @@ var gameManager = {
 	introAnimation: false,
 
 
-	renderScreen: function(ctx){		
+	renderScreen: function(ctx){	
+
+
+	
 		if(this.position === this.lostScreen){
 			this._renderGameLostScreen(ctx);
 		}
@@ -77,7 +80,7 @@ var gameManager = {
 
 	_renderStartScreen :function(ctx){
 
-		
+
 
 		g_sprites.menuBg.drawCentredAt(ctx,g_canvas.width/2,g_canvas.height/2,0);
 
@@ -123,9 +126,7 @@ var gameManager = {
 			this.menuY = this.finalMenuY;
 			this.displayTitle = true;
 		}
-
-
-
+ 
 		g_sprites.oneplayer.image = g_images.oneplayer;
 		g_sprites.twoplayer.image = g_images.twoplayer;
 		g_sprites.controls.image = g_images.controls;
@@ -156,9 +157,6 @@ var gameManager = {
 			g_sprites.controls.image = g_images.controls_active;
 			if(g_mouseButton) this.position = this.controlScreen;
 		}
-
-
-
 	},
 
 	_isMouseOver: function(sprite){
@@ -275,8 +273,8 @@ var gameManager = {
 	},
 
 	_lostWonScreenMenu: function(){
-		g_sprites.playAgain.drawCentredAt(ctx,g_canvas.width/2-100,450,0);
-		g_sprites.menu.drawCentredAt(ctx,g_canvas.width/2+100,450,0);
+		g_sprites.playAgain.drawCentredAt(ctx,g_canvas.width/2-100,550,0);
+		g_sprites.menu.drawCentredAt(ctx,g_canvas.width/2+100,550,0);
 
 		g_sprites.playAgain.image = g_images.playAgain;
 		g_sprites.menu.image = g_images.menu;
