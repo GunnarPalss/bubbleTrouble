@@ -139,18 +139,10 @@ player.prototype.handleCollision = function () {
 			gameManager.gameLost = true;
 
 
-		//done with level
-		if(!entityManager.hasBubbles())
-		{
-			gameManager.level++; //update
+		entityManager.resetLevel(); //cleanup and setup new level
 
-			if(gameManager.level > gameManager.maxLevel)
-				gameManager.gameWon = true;
-			entityManager.resetLevel(); //cleanup and setup new level
 
-		}
 
-		entityManager.resetLevel();
 	}
 
 

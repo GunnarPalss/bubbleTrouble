@@ -134,7 +134,7 @@ generateBubbles : function(number) {
 },
 
 hasBubbles : function() {
-	return this._bubbles.length === 0;
+	return !(this._bubbles.length === 0);
 },
 
 generatePowerUp : function(descr)
