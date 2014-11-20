@@ -116,6 +116,7 @@ var gameManager = {
 
 		if(this._isMouseOver(g_sprites.oneplayer)){
 			g_sprites.oneplayer.image = g_images.oneplayer_active;
+			this.twoPlayer = false;
 			if(g_mouseButton) {
 				this.position = 1;
 				document.getElementById("intro").pause();
@@ -180,22 +181,23 @@ var gameManager = {
 
 
     	for(var i=0; i < entityManager._players[0].lives; i++){
-    		g_sprites.playerOneLifeIcon.drawCentredAt(ctx,g_canvas.width-(30+45*i),30,0);
+    		g_sprites.playerOneLifeIcon.drawCentredAt(ctx,30+45*i,30,0);
     	}
 
    		if(this.twoPlayer){
    			for(var i=0; i < entityManager._players[1].lives; i++){
-   				g_sprites.playerTwoLifeIcon.drawCentredAt(ctx,30+45*i,30)
+   				g_sprites.playerTwoLifeIcon.drawCentredAt(ctx,g_canvas.width-(30+45*i),30)
    			}
    		}
 
    		if(powerUpEffectManager.freeze.active){
-   			g_sprites.barFalki.drawCentredAt(ctx,g_canvas.width/2 + 30, 50)
-   			//powerUpEffectManager.freeze.ttl
+   			console.log(powerUpEffectManager.double.ttl)
+   			g_sprites.barFalki.drawPartCentredAt(ctx,g_canvas.width/2 + 30, 40,powerUpEffectManager.freeze.ttl/(10000 / NOMINAL_UPDATE_INTERVAL))
    		}
 
    		if(powerUpEffectManager.double.active){
-   			g_sprites.barPopo.drawCentredAt(ctx,g_canvas.width/2 - 30, 50)
+   			console.log(powerUpEffectManager.double.ttl)
+   			g_sprites.barPopo.drawPartCentredAt(ctx,g_canvas.width/2 - 30, 40,powerUpEffectManager.double.ttl/(10000 / NOMINAL_UPDATE_INTERVAL))
    		}
 
 	},

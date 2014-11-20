@@ -13,15 +13,15 @@ var powerUpTypes =
 	//Freezes the wire
 	freeze : {
 		id: "freeze",
-		activate: function() {
-			powerUpEffectManager.activateFreeze(PowerUp.prototype.ttl);
+		activate: function(ttl) {
+			powerUpEffectManager.activateFreeze(ttl);
 		}},
 
 	// Allows player to shoot two wires
 	double : {
 		id: "double",
-		activate: function() {
-			powerUpEffectManager.activateDouble(PowerUp.prototype.ttl);
+		activate: function(ttl) {
+			powerUpEffectManager.activateDouble(ttl);
 
 	}}
 };

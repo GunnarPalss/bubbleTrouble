@@ -28,12 +28,13 @@ var powerUpEffectManager =
 		var pManager = this;
 		Object.keys(powerUpTypes).forEach(function(powerUpId)
 		{
+
 			//check if powerup is active decreas its time to live
 			//and kill it if necessary
 			if(pManager[powerUpId].active)
 			{
 				pManager[powerUpId].ttl -= du;
-				if(pManager[powerUpId].ttl)
+				if(pManager[powerUpId].ttl <= 0)
 				{
 				pManager[powerUpId].active = false;
 					pManager[powerUpId].ttl = 0
@@ -46,6 +47,7 @@ var powerUpEffectManager =
 
 	activateFreeze: function(ttl)
 	{
+
 		this.freeze.active = true;
 		this.freeze.ttl = ttl;
 	},
