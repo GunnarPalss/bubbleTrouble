@@ -93,9 +93,7 @@ Bubble.prototype.getBoundingBox = function () {
 		this.scale*g_sprites.bubble.width, this.scale*g_sprites.bubble.height);
 };
 
-// HACKED-IN AUDIO (no preloading)
-Bubble.prototype.splitSound = new Audio(
-  "sounds/rockSplit.ogg");
+
 Bubble.prototype.evaporateSound = new Audio(
   "sounds/rockEvaporate.ogg");
 
