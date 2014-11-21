@@ -25,48 +25,118 @@ _nextSpatialID : 1, // make all valid IDs non-falsey (i.e. don't start at 0)
 _entities : [],
 
 // "PRIVATE" METHODS
-//
-// <none yet>
+
+//Insert a value into the _entities array, keeps the array sorted, O(N)
+_insert: function(id, entity) {
+
+    this._entities.push({spatialID: id, entity: entity});
+
+
+},
+
+//O(N) because of array splice
+_delete: function(id) {
+
+    for(var i=0; i<this._entities.length; i++)
+    {
+        if(this._entities[i].spatialID === id)
+        {
+            this._entities.splice(i, 1);
+            break;
+        }
+
+    }
+
+},
+
 
 
 // PUBLIC METHODS
 
 getNewSpatialID : function() {
 
-	// TODO: YOUR STUFF HERE!
+    return this._nextSpatialID++;
 
 },
 
 register: function(entity) {
-	var pos = entity.getPos();
-	var spatialID = entity.getSpatialID();
-	
-	// TODO: YOUR STUFF HERE!
+    var pos = entity.getPos();
+    var spatialID = entity.getSpatialID();
+
+    this._insert(spatialID, entity);
 
 },
 
 unregister: function(entity) {
-	var spatialID = entity.getSpatialID();
+    var spatialID = entity.getSpatialID();
 
-	// TODO: YOUR STUFF HERE!
+    this._delete(spatialID)
 
 },
 
-findEntityInRange: function(posX, posY, radius) {
+findEntityInRange: function(obj, rect) {
 
-	// TODO: YOUR STUFF HERE!
+
+    for(var i=0; i<this._entities.length; i++)
+    {
+    	var entity = this._entities[i].entity;
+
+    	//Wire can only hit bubbles
+    	if(obj instanceof Wire && entity instanceof PowerUp)
+        	continue;
+
+
+        //entity is a circle
+        if(entity.getRadius)
+        {
+	        var entityRad = entity.getRadius();
+	        var entityPos = entity.getPos();
+	        if (rect.collidesWithCircle(entityPos.posX, entityPos.posY, entityRad))
+	        {
+
+	            return entity
+	        }
+
+	    }
+
+	    else
+	    {
+	    	var collisionRect = entity.getBoundingBox();
+	    	if(rect.collidesWithRect(collisionRect))
+	    	{
+	    		return entity
+	    	}
+	    }
+
+    }
+
 
 },
 
 render: function(ctx) {
-	var oldStyle = ctx.strokeStyle;
-	ctx.strokeStyle = "red";
-	
-	for (var ID in this._entities) {
-		var e = this._entities[ID];
-		util.strokeCircle(ctx, e.posX, e.posY, e.radius);
-	}
-	ctx.strokeStyle = oldStyle;
+    var oldStyle = ctx.strokeStyle;
+    ctx.strokeStyle = "red";
+
+    for (var i=0; i<this._entities.length; i++) {
+
+        var e = this._entities[i].entity;
+        var pos = e.getPos();
+
+        if(e.getRadius)
+        {
+	        var radius = e.getRadius();
+	        util.strokeCircle(ctx, pos.posX, pos.posY, radius);
+	    }
+
+	    else
+	    {	var rect = e.getBoundingBox();
+	    	util.strokeRect(ctx, rect.x, rect.y, rect.width, rect.height);
+	    }
+
+
+
+    }
+    ctx.strokeStyle = oldStyle;
 }
 
 }

@@ -20,14 +20,23 @@ function Sprite(image) {
     this.width = image.width;
     this.height = image.height;
     this.scale = 1;
+
+    this.count = 1;
+
 }
 
 Sprite.prototype.drawAt = function (ctx, x, y) {
+    this.x = x;
+    this.y = y;
+    
     ctx.drawImage(this.image, 
                   x, y);
 };
 
 Sprite.prototype.drawCentredAt = function (ctx, cx, cy, rotation) {
+    this.x = cx;
+    this.y = cy;
+
     if (rotation === undefined) rotation = 0;
     
     var w = this.width,
@@ -46,8 +55,25 @@ Sprite.prototype.drawCentredAt = function (ctx, cx, cy, rotation) {
     ctx.restore();
 };  
 
-Sprite.prototype.drawWrappedCentredAt = function (ctx, cx, cy, rotation) {
+Sprite.prototype.drawPartCentredAt = function (ctx, cx, cy, percentage) {
     
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(cx,cy);
+    ctx.arc(cx,cy,25, -Math.PI/2, -Math.PI * 2 * percentage - Math.PI/2 ,true);
+    ctx.closePath();
+    ctx.clip();
+    ctx.drawImage(this.image, cx-25, cy-25, 50, 50);
+    ctx.restore();
+
+};  
+
+
+
+Sprite.prototype.drawWrappedCentredAt = function (ctx, cx, cy, rotation) {
+    this.x = cx;
+    this.y = cy;
+
     // Get "screen width"
     var sw = g_canvas.width;
     
@@ -60,6 +86,8 @@ Sprite.prototype.drawWrappedCentredAt = function (ctx, cx, cy, rotation) {
 };
 
 Sprite.prototype.drawWrappedVerticalCentredAt = function (ctx, cx, cy, rotation) {
+    this.x = cx;
+    this.y = cy;
 
     // Get "screen height"
     var sh = g_canvas.height;
@@ -70,4 +98,14 @@ Sprite.prototype.drawWrappedVerticalCentredAt = function (ctx, cx, cy, rotation)
     // Top and Bottom wraps
     this.drawCentredAt(ctx, cx, cy - sh, rotation);
     this.drawCentredAt(ctx, cx, cy + sh, rotation);
+};
+
+Sprite.prototype.drawSpriteIndex = function(ctx, index, cx, cy){
+
+    this.x = cx;
+    this.y = cy;
+
+    ctx.save();
+    ctx.drawImage(this.image, index*this.width/this.count, 0, this.width/this.count, this.height, cx-this.width/this.count/2, cy-this.height/2, this.width/this.count, this.height);
+    ctx.restore();
 };

@@ -28,7 +28,7 @@ function render(ctx) {
     // here, so that it becomes part of our "diagnostic" wrappers
     //
     if (g_doClear) util.clearCanvas(ctx);
-    
+ 
     // The main purpose of the box is to demonstrate that it is
     // always deleted by the subsequent "undo" before you get to
     // see it...
@@ -40,9 +40,8 @@ function render(ctx) {
     
     // The core rendering of the actual game / simulation
     //
-    if (g_doRender) renderSimulation(ctx);
-    
-    
+    if (g_doRender) gameManager.renderScreen(ctx);
+   
     // This flip-flip mechanism illustrates the pattern of alternation
     // between frames, which provides a crude illustration of whether
     // we are running "in sync" with the display refresh rate.
@@ -62,11 +61,11 @@ function render(ctx) {
         var text = g_frameCounter % 2 ? "odd" : "even";
         ctx.fillText(text, boxX + 10, boxY + 40);
     }
-    
+     
     // Optional erasure of diagnostic "box",
     // to illustrate flicker-proof double-buffering
     //
     if (g_undoBox) ctx.clearRect(200, 200, 50, 50);
-    
+   
     ++g_frameCounter;
 }

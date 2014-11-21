@@ -2,7 +2,7 @@
 
 entityManager.js
 
-A module which handles arbitrary entity-management for "Asteroids"
+A module which handles arbitrary entity-management for "Bubble Trouble"
 
 
 We create this module as a single global object, and initialise it
@@ -16,59 +16,19 @@ with suitable 'data' and 'methods'.
 "use strict";
 
 
-// Tell jslint not to complain about my use of underscore prefixes (nomen),
-// my flattening of some indentation (white), or my use of incr/decr ops
-// (plusplus).
-//
-/*jslint nomen: true, white: true, plusplus: true*/
-
 
 var entityManager = {
 
 // "PRIVATE" DATA
 
-_rocks   : [],
-_Wires : [],
+_bubbles   : [],
+_WiresPlayerOne : [],
+_WiresPlayerTwo: [],
 _players   : [],
-
-_bShowRocks : true,
+_powerUps : [],
 
 // "PRIVATE" METHODS
 
-_generateRocks : function() {
-    var i,
-        NUM_ROCKS = 4;
-
-    for (i = 0; i < NUM_ROCKS; ++i) {
-        this.generateRock();
-    }
-},
-
-_findNearestplayer : function(posX, posY) {
-    var closestplayer = null,
-        closestIndex = -1,
-        closestSq = 1000 * 1000;
-
-    for (var i = 0; i < this._players.length; ++i) {
-
-        var thisplayer = this._players[i];
-        var playerPos = thisplayer.getPos();
-        var distSq = util.wrappedDistSq(
-            playerPos.posX, playerPos.posY,
-            posX, posY,
-            g_canvas.width, g_canvas.height);
-
-        if (distSq < closestSq) {
-            closestplayer = thisplayer;
-            closestIndex = i;
-            closestSq = distSq;
-        }
-    }
-    return {
-        theplayer : closestplayer,
-        theIndex: closestIndex
-    };
-},
 
 _forEachOf: function(aCategory, fn) {
     for (var i = 0; i < aCategory.length; ++i) {
@@ -87,57 +47,112 @@ KILL_ME_NOW : -1,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._rocks, this._Wires, this._players];
+    this._categories = [this._bubbles, this._WiresPlayerOne, this._WiresPlayerTwo, this._players, this._powerUps];
 },
 
+//initialize entities (level 1)
 init: function() {
-    //this._generateRocks();
-    //this._generateplayer();
+
+
+	//Initial bubble
+    this.generateBubble({
+		cx: g_canvas.width/2,
+		cy: g_canvas.height*0.1
+	});
+
+    //Player 1
+    this.generatePlayer({
+        cx : 200,
+        cy : 200,
+        lives : 3,
+        playerIndex: 0,
+        sprite: g_sprites.player,
+        // key config
+        KEY_LEFT: 'A'.charCodeAt(0),
+		KEY_RIGHT: 'D'.charCodeAt(0),
+		KEY_FIRE: ' '.charCodeAt(0)
+
+    });
+
+
+    //Player 2
+    if(gameManager.twoPlayer) {
+    	this.generatePlayer({
+    		cx: 400,
+    		cy: 200,
+    		lives: 3,
+    		playerIndex: 1,
+    		sprite: g_sprites.player2,
+    		//key config
+    		KEY_LEFT: 37,
+			KEY_RIGHT: 39,
+			KEY_FIRE: 38
+
+    	});
+	}
 },
 
-fireWire: function(cx, cy, velX, velY, rotation) {
+maybeFireWire: function(cx , player) {
 
-	if(this._Wires.length === 0)
+	// who is shootin
+	if(player.playerIndex === 0)
+		var wires = this._WiresPlayerOne;
+	else
+		var wires = this._WiresPlayerTwo;
+
+
+	//Check for double powerUp
+	var minWireNumber = 0;
+	if (powerUpEffectManager.double.active)
+		minWireNumber = 1;
+
+	if(powerUpEffectManager.freeze.active && wires.length <= minWireNumber)
 	{
-	    this._Wires.push(new Wire({
+
+		 wires.push(new Wire({
+	        cx   : cx,
+	        velY : -10
+	    }));
+	}
+
+	//Ensure that you can only fire one wire at a time
+	else if(wires.length <= minWireNumber)
+	{
+
+	    wires.push(new Wire({
 	        cx   : cx
 	    }));
 	}
 },
 
-generateRock : function(descr) {
-   /* this._rocks.push(new Rock(descr));*/
+
+generateBubble : function(descr) {
+   this._bubbles.push(new Bubble(descr));
 },
 
-generateplayer : function(descr) {
+generateBubbles : function(number) {
+
+    var NUM_BUBBLES = number;
+
+    for (var i = 0; i < NUM_BUBBLES; ++i) {
+        this.generateBubble();
+    }
+},
+
+hasBubbles : function() {
+	return !(this._bubbles.length === 0);
+},
+
+generatePowerUp : function(descr)
+{
+	this._powerUps.push(new PowerUp(descr));
+},
+
+generatePlayer : function(descr) {
     this._players.push(new player(descr));
 },
 
-killNearestplayer : function(xPos, yPos) {
-    var theplayer = this._findNearestplayer(xPos, yPos).theplayer;
-    if (theplayer) {
-        theplayer.kill();
-    }
-},
 
-yoinkNearestplayer : function(xPos, yPos) {
-    var theplayer = this._findNearestplayer(xPos, yPos).theplayer;
-    if (theplayer) {
-        theplayer.setPos(xPos, yPos);
-    }
-},
-
-resetplayers: function() {
-    this._forEachOf(this._players, player.prototype.reset);
-},
-
-haltplayers: function() {
-    this._forEachOf(this._players, player.prototype.halt);
-},
-
-toggleRocks: function() {
-    this._bShowRocks = !this._bShowRocks;
-},
 
 update: function(du) {
 
@@ -161,7 +176,19 @@ update: function(du) {
         }
     }
 
-    if (this._rocks.length === 0) this._generateRocks();
+	//done with level
+	if(!entityManager.hasBubbles())
+	{
+		gameManager.level++; //update
+
+		if(gameManager.level > gameManager.maxLevel)
+		{
+			gameManager.gameWon = true;
+		}
+
+		entityManager.resetLevel(); //cleanup and setup new level
+	}
+
 
 },
 
@@ -173,9 +200,6 @@ render: function(ctx) {
 
         var aCategory = this._categories[c];
 
-        if (!this._bShowRocks &&
-            aCategory == this._rocks)
-            continue;
 
         for (var i = 0; i < aCategory.length; ++i) {
 
@@ -185,9 +209,65 @@ render: function(ctx) {
         }
         debugY += 10;
     }
-}
+},
+
+resetLevel: function() {
+
+		//reset powerup effects
+		powerUpEffectManager.reset();
+
+		//kill all powerups
+		for(var i = 0; i < this._powerUps.length; i++)
+		{
+			entityManager._powerUps[i].kill();
+		}
+
+		//kill all bubbles
+		for(var i = 0; i < this._bubbles.length; i++)
+		{
+			this._bubbles[i].kill();
+		}
+
+		//regenerate level
+		this.generateBubbles(gameManager.level);
+},
+
+
+//Reset all entities
+resetGame: function() {
+
+		//reset powerup effects
+		powerUpEffectManager.reset();
+
+		//kill all powerups
+		for(var i = 0; i < this._powerUps.length; i++)
+		{
+			entityManager._powerUps[i].kill();
+		}
+
+		//kill all bubbles
+		for(var i = 0; i < this._bubbles.length; i++)
+		{
+			this._bubbles[i].kill();
+		}
+
+
+		for(var i = 0; i < this._players.length; i++)
+		{
+			this._players[i].kill();
+		}
+
+
+
+
+},
+
+
+
 
 }
+
+
 
 // Some deferred setup which needs the object to have been created first
 entityManager.deferredSetup();
